@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { IMeal } from '@starstable-wiki/shared/api';
+import { IMeal, MealSort } from '@starstable-wiki/shared/api';
 import { BehaviorSubject } from 'rxjs';
 import { Logger } from '@nestjs/common';
 
@@ -14,6 +14,8 @@ export class MealService {
             description: 'Vega version of the famous spaghetti recipe.',
             isVega: true,
             dateServed: new Date(),
+            cook: 'Pietro',
+            sort: MealSort.Dinner,
         },
     ]);
 
@@ -45,6 +47,8 @@ export class MealService {
             id: `meal-${Math.floor(Math.random() * 10000)}`,
             isVega: false,
             dateServed: new Date(),
+            sort: MealSort.Breakfast,
+            cook: ''
         };
         this.meals$.next([...current, newMeal]);
         return newMeal;

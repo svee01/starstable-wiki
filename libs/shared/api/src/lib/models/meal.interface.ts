@@ -1,4 +1,4 @@
-import { Id } from './id.type';
+// import { Id } from './id.type';
 
 export enum MealSort {
     Breakfast = 'breakfast',
@@ -10,7 +10,7 @@ export enum MealSort {
 type User = string;
 
 export interface IMeal {
-    id: Id;
+    id: string;
     title: string;
     description: string;
     isVega: boolean;
