@@ -14,7 +14,16 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@starstable-wiki/backend/dto": ["libs/backend/dto/src/index.ts"],
+      "@starstable-wiki/backend/features": [
+        "libs/backend/features/src/index.ts"
+      ],
+      "@starstable-wiki/common": ["libs/frontend/common/src/index.ts"],
+      "@starstable-wiki/feature": ["libs/frontend/feature/src/index.ts"],
+      "@starstable-wiki/shared/api": ["libs/shared/api/src/index.ts"],
+      "@starstable-wiki/ui": ["libs/frontend/ui/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
