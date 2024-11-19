@@ -1,1 +1,44 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Custom Bootstrap styles */
+.navbar {
+  margin-bottom: 20px;
+}
+
+.navbar-nav .nav-item .nav-link {
+  color: #007bff;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+  color: #0056b3;
+}
+
+.table {
+  margin-top: 20px;
+}
+
+.table thead th {
+  background-color: #f8f9fa;
+}
+
+.table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+.container {
+  padding: 20px;
+}
+
+.mt-5 {
+  margin-top: 3rem !important;
+}
+
+.lead {
+  font-size: 1.25rem;
+  font-weight: 300;
+}
+
+.list-group-item {
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+}
