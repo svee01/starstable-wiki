@@ -1,0 +1,13 @@
+/* Add your styles here */
+.user-details {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+.user-details h2 {
+  color: #333;
+}
+
+.user-details p {
+  color: #666;
+}
