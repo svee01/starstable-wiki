@@ -2,7 +2,11 @@
   "name": "@starstable-wiki/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "build": "nx run-many -t build",
+    "build:my-app": "nx run starstable-wiki:build:production",
+    "test": "nx run-many -t test"
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "~18.2.0",
