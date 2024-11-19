@@ -1,13 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { User } from '@shared/api/models/user.interface';
+import { User } from 'libs/shared/api/src/lib/models/user.interface';
 
 @Component({
   selector: 'app-user-details',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './user-details.component.html',
+  template: `
+    <div *ngIf="user">
+      <h2>{{ user.name }}</h2>
+      <p>Email: {{ user.email }}</p>
+      <p>Role: {{ user.role }}</p>
+    </div>
+  `,
   styleUrls: ['./user-details.component.css'],
 })
 export class UserDetailsComponent implements OnInit {
