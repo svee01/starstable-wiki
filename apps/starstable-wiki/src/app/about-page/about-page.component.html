@@ -1,8 +1,72 @@
-<p>about-page works!</p>
-
-<!-- Je naam en studentnummer.
-Een zinvolle en volledige beschrijving van je casus.
-Een ERD van je datamodel.
-Een tabel met functionele requirements (FR) zoals in het voorbeeld hieronder. Maak gebruik van de user-story benadering, oftewel:
-
-Als....wil ik...., zodanig dat... -->
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="display-4">About Page</h1>
+      <p class="lead">This is the about page of the StarStable Wiki.</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="h4">Details</h2>
+      <ul class="list-group">
+        <li class="list-group-item">Name: Sanne van Eck</li>
+        <li class="list-group-item">Student Number: 2184233</li>
+        <li class="list-group-item">Description:</li>
+        <p>De webapp is een wiki-platform voor de videogame StarStable. Gebruikers kunnen een account aanmaken, inloggen, en artikelen toevoegen over 
+            verschillende aspecten van de game, zoals paarden, stallen, en karakters. De app biedt een georganiseerde manier om informatie over de game te 
+            vinden en te delen. Belangrijke functionaliteiten zijn onder andere een gebruikersbeheer, artikelbeheer, en een overzichtelijke interface.</p>
+        <li class="list-group-item">ERD:</li>
+        <img src="/starstable-wiki-erd.drawio.png" alt="ERD">
+        <li class="list-group-item">Functional Requirements:</li>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Functional Requirement</th>
+                    <th>Acceptatiecriteria</th>
+                    <th>Prioriteit (MoSCoW)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>FR1</td>
+                    <td>Als een gebruiker wil ik een account kunnen aanmaken, zodanig dat ik toegang krijg tot alle functionaliteiten.</td>
+                    <td>Gebruiker kan succesvol registreren met een uniek e-mailadres en wachtwoord.</td>
+                    <td>Must Have</td>
+                </tr>
+                <tr>
+                    <td>FR2</td>
+                    <td>Als een gebruiker wil ik kunnen inloggen, zodanig dat ik mijn account kan beheren.</td>
+                    <td>Gebruiker kan inloggen met correcte inloggegevens en krijgt toegang tot hun persoonlijke dashboard.</td>
+                    <td>Must Have</td>
+                </tr>
+                <tr>
+                    <td>FR3</td>
+                    <td>Als een gebruiker wil ik artikelen kunnen toevoegen, zodanig dat ik informatie kan delen over de game.</td>
+                    <td>Gebruiker kan een nieuw artikel aanmaken, opslaan, en wijzigen via een formulier.</td>
+                    <td>Must Have</td>
+                </tr>
+                <tr>
+                    <td>FR4</td>
+                    <td>Als een gebruiker wil ik een overzicht van alle artikelen, zodanig dat ik makkelijk informatie kan vinden.</td>
+                    <td>Gebruiker ziet een lijst met artikelen, gesorteerd op datum of populariteit.</td>
+                    <td>Should Have</td>
+                </tr>
+                <tr>
+                    <td>FR5</td>
+                    <td>Als een gebruiker wil ik artikelen kunnen bewerken, zodanig dat ik mijn bijdrage kan aanpassen.</td>
+                    <td>Alleen de auteur van een artikel kan dit bewerken, mits ingelogd.</td>
+                    <td>Could Have</td>
+                </tr>
+                <tr>
+                    <td>FR6</td>
+                    <td>Als een gebruiker wil ik mijn favoriete artikelen kunnen opslaan, zodanig dat ik snel toegang heb.</td>
+                    <td>Gebruiker kan een artikel markeren als favoriet en dit terugvinden in een persoonlijke lijst.</td>
+                    <td>Could Have</td>
+                </tr>
+            </tbody>
+        </table>
+      </ul>
+    </div>
+  </div>
+</div>

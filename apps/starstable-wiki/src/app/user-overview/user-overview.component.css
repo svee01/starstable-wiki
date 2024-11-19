@@ -1,0 +1,42 @@
+/* Add your styles here */
+.user-overview {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+.user-overview h2 {
+  color: #333;
+}
+
+.user-overview table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.user-overview th,
+.user-overview td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.user-overview th {
+  background-color: #f2f2f2;
+  color: #333;
+}
+
+.user-overview tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.user-overview tr:hover {
+  background-color: #ddd;
+}
+
+.user-overview a {
+  color: #1a73e8;
+  text-decoration: none;
+}
+
+.user-overview a:hover {
+  text-decoration: underline;
+}
