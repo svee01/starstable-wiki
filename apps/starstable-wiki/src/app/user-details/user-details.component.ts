@@ -19,8 +19,8 @@ import { User } from 'libs/shared/api/src/lib/models/user.interface';
 export class UserDetailsComponent implements OnInit {
   user: User | undefined;
   users: User[] = [
-    { id: '1', name: 'John Doe', email: 'john.doe@example.com', role: 'Admin' },
-    { id: '2', name: 'Jane Smith', email: 'jane.smith@example.com', role: 'User' },
+    { id: '1', name: 'John Doe', email: 'john.doe@example.com', role: 'Admin', password: 'password' },
+    { id: '2', name: 'Jane Smith', email: 'jane.smith@example.com', role: 'User', password: 'password' },
   ];
 
   constructor(private route: ActivatedRoute) {}

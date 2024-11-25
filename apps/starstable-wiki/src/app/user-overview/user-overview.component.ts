@@ -12,8 +12,8 @@ import { User } from 'libs/shared/api/src/lib/models/user.interface';
 })
 export class UserOverviewComponent implements OnInit {
   users: User[] = [
-    { id: '1', name: 'John Doe', email: 'john.doe@example.com', role: 'Admin' },
-    { id: '2', name: 'Jane Smith', email: 'jane.smith@example.com', role: 'User' },
+    { id: '1', name: 'John Doe', email: 'john.doe@example.com', role: 'Admin', password: 'password' },
+    { id: '2', name: 'Jane Smith', email: 'jane.smith@example.com', role: 'User', password: 'password' },
   ];
 
   constructor() {}
