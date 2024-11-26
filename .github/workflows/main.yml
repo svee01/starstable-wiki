@@ -57,6 +57,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: frontend-app
+          fetch-depth: 0
 
       - name: Unzip artifact for deployment
         run: unzip frontend-app-release.zip
@@ -85,6 +86,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: backend-api
+          fetch-depth: 0
 
       - name: Unzip artifact for deployment
         run: unzip backend-api-release.zip
