@@ -44,7 +44,7 @@ jobs:
       - name: Upload backend-api artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
-          name: data-api
+          name: starstable-api
           path: data-api-release.zip
           
           
@@ -87,7 +87,7 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
-          name: data-api
+          name: starstable-api
           fetch-depth: 0
 
       - name: Unzip artifact for deployment
