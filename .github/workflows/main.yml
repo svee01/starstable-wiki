@@ -62,7 +62,7 @@ jobs:
           fetch-depth: 0
 
       - name: Unzip artifact for deployment
-        run: unzip frontend-app-release.zip
+        run: unzip starstable-wiki-release.zip
         
       - name: Deploy to static azure web app
         id: builddeploy
@@ -91,7 +91,7 @@ jobs:
           fetch-depth: 0
 
       - name: Unzip artifact for deployment
-        run: unzip backend-api-release.zip
+        run: unzip data-api-release.zip
 
       - name: Install dependencies
         run: npm install
