@@ -4,15 +4,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'libs/shared/api/src/lib/models/user.interface';
 import { UserService } from 'libs/shared/api/src/lib/services/user.service';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';  // Import HttpClientModule
 
 @Component({
   selector: 'app-user-form',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, HttpClientModule], // Add HttpClientModule here
   templateUrl: './user-form.component.html',
   styleUrl: './user-form.component.css',
 })
-
 export class UserFormComponent implements OnInit {
   user: User = { id: '', name: '', email: '', role: '', password: '' };
 
