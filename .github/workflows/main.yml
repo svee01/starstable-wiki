@@ -38,14 +38,14 @@ jobs:
       - name: Upload frontend-app artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
-          name: frontend-app
-          path: frontend-app-release.zip
+          name: starstable-wiki
+          path: starstable-wiki-release.zip
           
       - name: Upload backend-api artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
-          name: backend-api
-          path: backend-api-release.zip
+          name: data-api
+          path: data-api-release.zip
           
           
   deploy-frontend-app:
@@ -58,7 +58,7 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
-          name: frontend-app
+          name: starstable-wiki
           fetch-depth: 0
 
       - name: Unzip artifact for deployment
@@ -87,7 +87,7 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
-          name: backend-api
+          name: data-api
           fetch-depth: 0
 
       - name: Unzip artifact for deployment
