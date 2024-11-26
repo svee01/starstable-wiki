@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "build": "nx run-many -t build",
+    "deploy": "nx run starstable-wiki:build",
     "build:my-app": "nx run starstable-wiki:build:production",
     "test": "nx run-many -t test"
   },
