@@ -2,31 +2,36 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { User } from 'libs/shared/api/src/lib/models/user.interface';
+import { UserService } from 'libs/shared/api/src/lib/services/user.service';
 
 @Component({
   selector: 'app-user-details',
   standalone: true,
   imports: [CommonModule],
-  template: `
-    <div *ngIf="user">
-      <h2>{{ user.name }}</h2>
-      <p>Email: {{ user.email }}</p>
-      <p>Role: {{ user.role }}</p>
-    </div>
-  `,
+  templateUrl: './user-details.component.html',
   styleUrls: ['./user-details.component.css'],
 })
 export class UserDetailsComponent implements OnInit {
-  user: User | undefined;
-  users: User[] = [
-    { id: '1', name: 'John Doe', email: 'john.doe@example.com', role: 'Admin', password: 'password' },
-    { id: '2', name: 'Jane Smith', email: 'jane.smith@example.com', role: 'User', password: 'password' },
-  ];
+  user!: User;
+  users: User[] = [];
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute,
+    private userService: UserService
+  ) {
+    const userId = this.route.snapshot.paramMap.get('id');
+    if (userId !== null) {
+      this.userService.getUserById(userId).subscribe((data) => (this.user = data));
+    } else {
+      // Handle the case where userId is null
+      console.error('User ID is null');
+    }
+  }
 
   ngOnInit(): void {
     const userId = this.route.snapshot.paramMap.get('id');
-    this.user = this.users.find((user) => user.id === userId);
+    const foundUser = this.users.find((user) => user.id === userId);
+    if (foundUser) {
+      this.user = foundUser;
+    } 
   }
 }

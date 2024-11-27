@@ -4,6 +4,15 @@ import { UserDetailsComponent } from './user/user-details/user-details.component
 import { AboutPageComponent } from './about-page/about-page.component';
 import { HomeComponent } from './home/home.component';
 import { UserFormComponent } from './user/user-form/user-form.component';
+import { HorseOverviewComponent } from './horse/horse-overview/horse-overview.component';
+import { HorseDetailsComponent } from './horse/horse-details/horse-details.component';
+import { HorseFormComponent } from './horse/horse-form/horse-form.component';
+import { CharacterOverviewComponent } from './character/character-overview/character-overview.component';
+import { CharacterDetailsComponent } from './character/character-details/character-details.component';
+import { CharacterFormComponent } from './character/character-form/character-form.component';
+import { StableOverviewComponent } from './stable/stable-overview/stable-overview.component';
+import { StableDetailsComponent } from './stable/stable-details/stable-details.component';
+import { StableFormComponent } from './stable/stable-form/stable-form.component';
 
 export const appRoutes: Route[] = [
   { path: 'users', component: UserOverviewComponent },
@@ -11,4 +20,13 @@ export const appRoutes: Route[] = [
   { path: 'about', component: AboutPageComponent },
   { path: '', component: HomeComponent },
   { path: 'user-form', component: UserFormComponent },
+  { path: 'horses', component: HorseOverviewComponent },
+  { path: 'horses/:id', component: HorseDetailsComponent },
+  { path: 'horse-form', component: HorseFormComponent },
+  { path: 'characters', component: CharacterOverviewComponent },
+  { path: 'characters/:id', component: CharacterDetailsComponent },
+  { path: 'character-form', component: CharacterFormComponent },
+  { path: 'stables', component: StableOverviewComponent },
+  { path: 'stables/:id', component: StableDetailsComponent },
+  { path: 'stable-form', component: StableFormComponent },
 ];

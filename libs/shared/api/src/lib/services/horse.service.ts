@@ -9,6 +9,7 @@ import { Horse } from '../models/horse.interface';
 export class HorseService {
   private baseUrl = 'https://api.example.com/horses'; // Mock or real API endpoint
   private horses: Horse[];
+  private nextId: number = 1;
 
   constructor(private http: HttpClient) {
     this.horses = [
@@ -16,6 +17,7 @@ export class HorseService {
       { id: '2', characterId: '2', name: 'Shadow', breed: 'Friesian', age: 7 },
       { id: '3', characterId: '3', name: 'Star', breed: 'Mustang', age: 4 },
     ];
+    this.nextId = this.horses.length + 1;
   }
 
   getHorses(): Observable<Horse[]> {
@@ -31,7 +33,11 @@ export class HorseService {
   }
 
   createHorse(horse: Horse): Observable<void> {
-    this.horses.push(horse);
+    const newHorse = { ...horse, id: (this.nextId++).toString() };
+    this.horses.push(newHorse);
+
+    console.log(newHorse);
+
     return of(undefined);
   }
 

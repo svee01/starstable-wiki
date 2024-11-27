@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stable Form</title>
+</head>
+<body>
+
+  <form (ngSubmit)="onSubmit()">
+    <h1>Stable Form</h1>
+
+    <!-- ID Field (hidden for now, since it's usually auto-generated or predefined) -->
+    <input type="hidden" id="id" [(ngModel)]="stable.id" name="id" />
+
+    <label for="name">Name:</label>
+    <input type="text" id="name" [(ngModel)]="stable.name" name="name" required />
+
+    <label for="location">Location:</label>
+    <input type="text" id="location" [(ngModel)]="stable.location" name="location" required />
+
+    <button type="submit">Save</button>
+  </form>
+
+</body>
+</html>

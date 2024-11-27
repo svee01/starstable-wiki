@@ -1,0 +1,55 @@
+/* Custom CSS for the table page */
+.container {
+    margin-top: 30px;
+  }
+  
+  h2.h4 {
+    color: #FF69B4; /* StarStable pink for the header */
+    margin-bottom: 20px;
+  }
+  
+  .table {
+    background-color: #ffffff; /* White background for the table */
+    border-radius: 10px; /* Slightly rounded corners for the table */
+    overflow: hidden; /* To ensure rounded corners work well */
+  }
+  
+  .table th,
+  .table td {
+    padding: 12px; /* More padding for better readability */
+    text-align: center;
+  }
+  
+  .table th {
+    background-color: #FF69B4; /* StarStable pink for table headers */
+    color: white; /* White text for headers */
+  }
+  
+  .table-striped tbody tr:nth-child(odd) {
+    background-color: #f9f9f9; /* Light gray for odd rows */
+  }
+  
+  .table-hover tbody tr:hover {
+    background-color: #e65b9e; /* Slightly darker pink for row hover effect */
+    color: white; /* White text on hover */
+  }
+  
+  .btn-primary {
+    background-color: #FF69B4; /* StarStable pink for the buttons */
+    border-color: #FF69B4; /* Border color matching the button */
+    padding: 8px 16px;
+    border-radius: 20px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-primary:hover {
+    background-color: #d14b88; /* Darker pink for hover effect */
+    border-color: #d14b88;
+  }
+  
+  .btn-primary:focus, .btn-primary:active {
+    background-color: #d14b88; /* Darker pink when focused or active */
+    border-color: #d14b88;
+  }
+  

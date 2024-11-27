@@ -1,0 +1,65 @@
+/* Custom CSS for the user detail card */
+.container {
+    margin-top: 50px;
+    max-width: 800px;
+  }
+  
+  .card {
+    border-radius: 10px; /* Rounded corners for the card */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+    background-color: #ffffff; /* White background for the card */
+    border: none; /* Remove default border */
+  }
+  
+  .card-body {
+    padding: 20px;
+  }
+  
+  .card-title {
+    color: #FF69B4; /* StarStable pink for the card title */
+    font-size: 1.5rem;
+  }
+  
+  .card-text {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .card-text strong {
+    font-weight: bold;
+  }
+  
+  .badge {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+    border-radius: 12px;
+  }
+  
+  .bg-success {
+    background-color: #28a745 !important; /* Green for Admin role */
+  }
+  
+  .bg-warning {
+    background-color: #ffc107 !important; /* Yellow for Editor role */
+    color: #212529; /* Dark text for better contrast */
+  }
+  
+  .bg-secondary {
+    background-color: #6c757d !important; /* Gray for Viewer role */
+  }
+  
+  .bg-primary {
+    background-color: #FF69B4 !important; /* StarStable pink for User role */
+  }
+  
+  .badge:hover {
+    opacity: 0.8; /* Slight fade effect on hover */
+  }
+  
+  hr {
+    border-color: #FF69B4; /* StarStable pink color for horizontal rule */
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+  

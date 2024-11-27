@@ -9,6 +9,7 @@ import { Stable } from '../models/stable.interface';
 export class StableService {
   private baseUrl = 'https://api.example.com/stables'; // Mock or real API endpoint
   private stables: Stable[];
+  private nextId: number = 1;
 
   constructor(private http: HttpClient) {
     this.stables = [
@@ -16,6 +17,7 @@ export class StableService {
       { id: '2', name: 'Golden Hills Stable', location: 'Jaspers Farm' },
       { id: '3', name: 'Silverglade Stable', location: 'Silverglade' },
     ];
+    this.nextId = this.stables.length + 1;
   }
 
   getStables(): Observable<Stable[]> {
@@ -31,7 +33,11 @@ export class StableService {
   }
 
   createStable(stable: Stable): Observable<void> {
-    this.stables.push(stable);
+    const newStable = { ...stable, id: (this.nextId++).toString() };
+    this.stables.push(newStable);
+
+    console.log(newStable);
+
     return of(undefined);
   }
 

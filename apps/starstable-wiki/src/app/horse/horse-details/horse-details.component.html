@@ -1,0 +1,30 @@
+<div class="container mt-5" *ngIf="horse">
+    <div class="card shadow-sm border-0">
+      <div class="card-body">
+        <h2 class="card-title h4">{{ horse.name }}</h2>
+        <hr />
+        
+        <!-- Display Horse ID -->
+        <p class="card-text">
+          <strong>ID:</strong> {{ horse.id }}
+        </p>
+        
+        <!-- Display Horse Name -->
+        <p class="card-text">
+          <strong>Name:</strong> {{ horse.name }}
+        </p>
+  
+        <!-- Display Horse Breed -->
+        <p class="card-text">
+          <strong>Breed:</strong> {{ horse.breed }}
+        </p>
+  
+        <!-- Display Horse Age -->
+        <p class="card-text">
+          <strong>Age:</strong> {{ horse.age }}
+        </p>
+        
+      </div>
+    </div>
+  </div>
+  

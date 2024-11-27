@@ -1,0 +1,28 @@
+<div class="container mt-5">
+    <h1>{{ character.id ? 'Edit' : 'Create' }} Character</h1>
+  
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" [(ngModel)]="character.name" name="name" required />
+      </div>
+  
+      <div class="form-group">
+        <label for="ridingSkill">Riding Skill</label>
+        <input type="number" class="form-control" id="ridingSkill" [(ngModel)]="character.ridingSkill" name="ridingSkill" required />
+      </div>
+  
+      <div class="form-group">
+        <label for="userId">User ID</label>
+        <input type="text" class="form-control" id="userId" [(ngModel)]="character.userId" name="userId" required />
+      </div>
+  
+      <div class="form-group">
+        <label for="stableId">Stable ID</label>
+        <input type="text" class="form-control" id="stableId" [(ngModel)]="character.stableId" name="stableId" required />
+      </div>
+  
+      <button type="submit" class="btn btn-primary">{{ character.id ? 'Update' : 'Create' }} Character</button>
+    </form>
+  </div>
+  

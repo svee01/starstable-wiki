@@ -1,42 +1,54 @@
-/* Add your styles here */
-.user-overview {
-  font-family: Arial, sans-serif;
-  margin: 20px;
+/* Custom CSS for the table page */
+.container {
+  margin-top: 30px;
 }
 
-.user-overview h2 {
-  color: #333;
+h2.h4 {
+  color: #FF69B4; /* StarStable pink for the header */
+  margin-bottom: 20px;
 }
 
-.user-overview table {
-  width: 100%;
-  border-collapse: collapse;
+.table {
+  background-color: #ffffff; /* White background for the table */
+  border-radius: 10px; /* Slightly rounded corners for the table */
+  overflow: hidden; /* To ensure rounded corners work well */
 }
 
-.user-overview th,
-.user-overview td {
-  border: 1px solid #ddd;
-  padding: 8px;
+.table th,
+.table td {
+  padding: 12px; /* More padding for better readability */
+  text-align: center;
 }
 
-.user-overview th {
-  background-color: #f2f2f2;
-  color: #333;
+.table th {
+  background-color: #FF69B4; /* StarStable pink for table headers */
+  color: white; /* White text for headers */
 }
 
-.user-overview tr:nth-child(even) {
-  background-color: #f9f9f9;
+.table-striped tbody tr:nth-child(odd) {
+  background-color: #f9f9f9; /* Light gray for odd rows */
 }
 
-.user-overview tr:hover {
-  background-color: #ddd;
+.table-hover tbody tr:hover {
+  background-color: #e65b9e; /* Slightly darker pink for row hover effect */
+  color: white; /* White text on hover */
 }
 
-.user-overview a {
-  color: #1a73e8;
-  text-decoration: none;
+.btn-primary {
+  background-color: #FF69B4; /* StarStable pink for the buttons */
+  border-color: #FF69B4; /* Border color matching the button */
+  padding: 8px 16px;
+  border-radius: 20px;
+  text-align: center;
+  transition: background-color 0.3s ease;
 }
 
-.user-overview a:hover {
-  text-decoration: underline;
+.btn-primary:hover {
+  background-color: #d14b88; /* Darker pink for hover effect */
+  border-color: #d14b88;
+}
+
+.btn-primary:focus, .btn-primary:active {
+  background-color: #d14b88; /* Darker pink when focused or active */
+  border-color: #d14b88;
 }

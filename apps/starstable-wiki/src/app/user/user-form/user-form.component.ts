@@ -36,6 +36,7 @@ export class UserFormComponent implements OnInit {
       });
     } else {
       this.userService.createUser(this.user).subscribe(() => {
+        console.log(this.user);
         this.router.navigate(['/users']);
       });
     }

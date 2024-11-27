@@ -9,12 +9,14 @@ import { Character } from '../models/character.interface';
 export class CharacterService {
   private baseUrl = 'https://api.example.com/characters'; // Mock or real API endpoint
   private characters: Character[];
+  private nextId: number = 1;
 
   constructor(private http: HttpClient) {
     this.characters = [
       { id: '1', name: 'John Doe', ridingSkill: 75, userId: 'user1', stableId: 'stable1' },
       { id: '2', name: 'Jane Smith', ridingSkill: 85, userId: 'user2', stableId: 'stable2' },
     ];
+    this.nextId = this.characters.length + 1;
   }
 
   getCharacters(): Observable<Character[]> {
@@ -30,7 +32,11 @@ export class CharacterService {
   }
 
   createCharacter(character: Character): Observable<void> {
-    this.characters.push(character);
+    const newCharacter = { ...character, id: (this.nextId++).toString() };
+    this.characters.push(newCharacter);
+
+    console.log(newCharacter);
+
     return of(undefined);
   }
 

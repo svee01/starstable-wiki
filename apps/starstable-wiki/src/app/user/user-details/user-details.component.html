@@ -1,17 +1,32 @@
 <div class="container mt-5" *ngIf="user">
   <div class="card shadow-sm border-0">
     <div class="card-body">
-      <h2 class="card-title h4 text-primary">{{ user.name }}</h2>
+      <h2 class="card-title h4">{{ user.name }}</h2>
       <hr />
+      
+      <!-- Display User ID -->
+      <p class="card-text">
+        <strong>ID:</strong> {{ user.id }}
+      </p>
+      
+      <!-- Display User Email -->
       <p class="card-text">
         <strong>Email:</strong> {{ user.email }}
       </p>
+
+      <!-- Display User Password (Note: Usually, you'd never display a password like this, it's just for demonstration) -->
+      <p class="card-text">
+        <strong>Password:</strong> ********  <!-- Masked for security -->
+      </p>
+
+      <!-- Display User Role -->
       <p class="card-text">
         <strong>Role:</strong> 
         <span class="badge" [ngClass]="{
           'bg-success': user.role === 'Admin',
           'bg-warning text-dark': user.role === 'Editor',
-          'bg-secondary': user.role === 'Viewer'
+          'bg-secondary': user.role === 'Viewer',
+          'bg-primary': user.role === 'User'
         }">
           {{ user.role }}
         </span>

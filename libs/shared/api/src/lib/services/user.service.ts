@@ -9,6 +9,7 @@ import { User } from '../models/user.interface';
 export class UserService {
   private baseUrl = 'https://api.example.com/users'; // Mock of echte API
   private users: User[];
+  private nextId: number = 1;
 
   constructor(private http: HttpClient) {
     this.users = [
@@ -16,6 +17,7 @@ export class UserService {
       { id: '2', name: 'Jane Smith', email: 'janesmith@gmail.com', role: 'User', password: 'password' },
       { id: '3', name: 'Alice Johnson', email: 'alicejohnson@gmail.com', role: 'User', password: 'password' },
     ]
+    this.nextId = this.users.length + 1;
   }
 
   getUsers(): Observable<User[]> {
@@ -31,7 +33,11 @@ export class UserService {
   }
 
   createUser(user: User): Observable<void> {
-    this.users.push(user);
+    const newUser = { ...user, id: (this.nextId++).toString() };
+    this.users.push(newUser);
+
+    console.log(newUser);
+
     return of(undefined);
   }
 

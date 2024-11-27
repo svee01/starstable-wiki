@@ -1,0 +1,29 @@
+<div class="container mt-5" *ngIf="character">
+    <div class="card shadow-sm border-0">
+      <div class="card-body">
+        <h2 class="card-title h4">{{ character.name }}</h2>
+        <hr />
+        
+        <!-- Display Character ID -->
+        <p class="card-text">
+          <strong>ID:</strong> {{ character.id }}
+        </p>
+        
+        <!-- Display Character Riding Skill -->
+        <p class="card-text">
+          <strong>Riding Skill:</strong> {{ character.ridingSkill }}
+        </p>
+  
+        <!-- Display Associated User ID -->
+        <p class="card-text">
+          <strong>User ID:</strong> {{ character.userId }}
+        </p>
+  
+        <!-- Display Associated Stable ID -->
+        <p class="card-text">
+          <strong>Stable ID:</strong> {{ character.stableId }}
+        </p>
+      </div>
+    </div>
+  </div>
+  

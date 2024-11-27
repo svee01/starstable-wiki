@@ -1,0 +1,29 @@
+<div class="container mt-5">
+    <h2 class="h4">Stable Overview</h2>
+  
+    <div class="mb-3">
+      <a class="btn btn-primary" [routerLink]="['/stable-form']">
+        <i class="fa fa-plus"></i> Add Stable
+      </a>
+    </div>
+  
+    <table class="table table-striped table-hover">
+      <thead class="thead-light">
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Location</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let stable of stables">
+          <td>{{ stable.id }}</td>
+          <td>{{ stable.name }}</td>
+          <td>{{ stable.location }}</td>
+          <td><a class="btn btn-primary" [routerLink]="['/stables', stable.id]">View Details</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

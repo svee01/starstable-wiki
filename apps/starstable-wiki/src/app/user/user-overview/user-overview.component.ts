@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { User } from 'libs/shared/api/src/lib/models/user.interface';
+import { UserService } from 'libs/shared/api/src/lib/services/user.service';
 
 @Component({
   selector: 'app-user-overview',
@@ -11,12 +12,11 @@ import { User } from 'libs/shared/api/src/lib/models/user.interface';
   styleUrls: ['./user-overview.component.css'],
 })
 export class UserOverviewComponent implements OnInit {
-  users: User[] = [
-    { id: '1', name: 'John Doe', email: 'john.doe@example.com', role: 'Admin', password: 'password' },
-    { id: '2', name: 'Jane Smith', email: 'jane.smith@example.com', role: 'User', password: 'password' },
-  ];
+  users: User[] = [];
 
-  constructor() {}
+  constructor(private userService: UserService) {
+    this.userService.getUsers().subscribe((data) => (this.users = data));
+  }
 
   ngOnInit(): void {}
 }

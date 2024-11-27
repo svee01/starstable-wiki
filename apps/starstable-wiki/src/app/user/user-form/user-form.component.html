@@ -9,17 +9,24 @@
 
   <form (ngSubmit)="onSubmit()">
     <h1>User Form</h1>
+
+    <!-- ID Field (hidden for now, since it's usually auto-generated or predefined) -->
+    <input type="hidden" id="id" [(ngModel)]="user.id" name="id" />
+
     <label for="name">Name:</label>
     <input type="text" id="name" [(ngModel)]="user.name" name="name" required />
 
     <label for="email">Email:</label>
     <input type="email" id="email" [(ngModel)]="user.email" name="email" required />
 
+    <label for="password">Password:</label>
+    <input type="password" id="password" [(ngModel)]="user.password" name="password" required />
+
     <label for="role">Role:</label>
     <select id="role" [(ngModel)]="user.role" name="role" required>
-      <option value="admin">Admin</option>
-      <option value="editor">Editor</option>
-      <option value="viewer">Viewer</option>
+      <option value="Admin">Admin</option>
+      <option value="Editor">Editor</option>
+      <option value="Viewer">Viewer</option>
     </select>
 
     <button type="submit">Save</button>
