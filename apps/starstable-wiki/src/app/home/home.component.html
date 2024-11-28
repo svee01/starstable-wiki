@@ -1,1 +1,55 @@
-<p>home works!</p>
+<div class="container mt-5">
+    <div class="text-center">
+      <h1 class="display-4 fw-bold mb-4">Welcome to StarStable Wiki!</h1>
+      <p class="lead mb-5">Your ultimate guide to horses, stables, and characters in StarStable. Explore, learn, and contribute!</p>
+      
+      <div class="d-flex justify-content-center gap-3">
+        <a class="btn btn-primary btn-lg rounded-pill" [routerLink]="['/stables']">Explore Stables</a>
+        <a class="btn btn-success btn-lg rounded-pill" [routerLink]="['/horses']">Discover Horses</a>
+        <a class="btn btn-warning btn-lg rounded-pill" [routerLink]="['/characters']">Meet Characters</a>
+      </div>
+    </div>
+  
+    <hr class="my-5" />
+  
+    <!-- Announcements / Latest Articles Section -->
+    <div class="mt-5">
+      <h2 class="mb-4 text-center">Latest Updates & Articles</h2>
+      <div class="row">
+        <!-- Card 1 -->
+        <div class="col-md-4">
+          <div class="card shadow-sm">
+            <img src="starstable-logo-big-pink.png" class="card-img-top" alt="Article Image 1">
+            <div class="card-body">
+              <h5 class="card-title">New Stable Feature Released!</h5>
+              <p class="card-text">Learn about the latest stable feature added to StarStable.</p>
+              <a [routerLink]="['/article/1']" class="btn btn-primary">Read More</a>
+            </div>
+          </div>
+        </div>
+        <!-- Card 2 -->
+        <div class="col-md-4">
+          <div class="card shadow-sm">
+            <img src="starstable-logo-big-pink.png" class="card-img-top" alt="Article Image 2">
+            <div class="card-body">
+              <h5 class="card-title">Top Horses to Train</h5>
+              <p class="card-text">Discover the best horses to focus on for competitive play.</p>
+              <a [routerLink]="['/article/2']" class="btn btn-primary">Read More</a>
+            </div>
+          </div>
+        </div>
+        <!-- Card 3 -->
+        <div class="col-md-4">
+          <div class="card shadow-sm">
+            <img src="starstable-logo-big-pink.png" class="card-img-top" alt="Article Image 3">
+            <div class="card-body">
+              <h5 class="card-title">Character Spotlight</h5>
+              <p class="card-text">Meet the iconic characters of StarStable and their backstories.</p>
+              <a [routerLink]="['/article/3']" class="btn btn-primary">Read More</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

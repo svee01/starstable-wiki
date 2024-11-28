@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Horse } from 'libs/shared/api/src/lib/models/horse.interface'; // Adjust import based on your project structure
 import { HorseService } from 'libs/shared/api/src/lib/services/horse.service'; // Adjust import based on your project structure
 
 @Component({
   selector: 'app-horse-details',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './horse-details.component.html',
   styleUrls: ['./horse-details.component.css'],
 })
@@ -16,7 +16,8 @@ export class HorseDetailsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private horseService: HorseService
+    private horseService: HorseService, 
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -30,6 +31,20 @@ export class HorseDetailsComponent implements OnInit {
       });
     } else {
       console.error('Horse ID is null');
+    }
+  }
+
+  onDelete(horseId: string): void {
+    if (this.horse && this.horse.id) {
+      const confirmDelete = confirm(
+        `Are you sure you want to delete the horse "${this.horse.name}"?`
+      );
+      if (confirmDelete) {
+        this.horseService.deleteHorse(this.horse.id).subscribe(() => {
+          alert('User deleted successfully.');
+          this.router.navigate(['/horses']);
+        });
+      }
     }
   }
 }

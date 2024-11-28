@@ -2,3 +2,48 @@
     width: 450px;
     height: auto;
 }
+
+.text-pink {
+    color: #FF69B4;
+  }
+  
+  .bg-light-pink {
+    background-color: #ffe6f2;
+  }
+  
+  .table-pink {
+    background-color: #FF69B4;
+    color: white;
+  }
+  
+  .table th, .table td {
+    vertical-align: middle;
+  }
+  
+  .card {
+    border-radius: 15px;
+  }
+  
+  .badge {
+    font-size: 0.9em;
+  }
+  
+  .erd-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 15px;
+    margin-top: 15px;
+  }
+  
+  .table-responsive {
+    overflow-x: auto;
+  }
+  
+  .table th {
+    text-align: center;
+  }
+  
+  .shadow-lg {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  

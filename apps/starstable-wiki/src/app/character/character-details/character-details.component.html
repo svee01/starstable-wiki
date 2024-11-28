@@ -23,6 +23,15 @@
         <p class="card-text">
           <strong>Stable ID:</strong> {{ character.stableId }}
         </p>
+
+        <div class="mt-3">
+            <button class="rounded-pink-btn edit me-2" [routerLink]="['/character', character.id]">
+              <i class="bi bi-pencil"></i> Edit
+            </button>
+            <button class="rounded-pink-btn delete" (click)="onDelete(character.id)">
+              <i class="bi bi-trash"></i> Delete
+            </button>
+        </div>
       </div>
     </div>
   </div>

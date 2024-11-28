@@ -1,0 +1,38 @@
+h1 {
+    color: #FF69B4;
+  }
+  
+  .lead {
+    color: #d14b88;
+  }
+  
+  .btn-primary {
+    background-color: #FF69B4;
+    border-color: #FF69B4;
+  }
+  
+  .btn-success {
+    background-color: #d14b88;
+    border-color: #d14b88;
+  }
+  
+  .btn-warning {
+    color: #fff;
+    background-color: #ffc107;
+    border-color: #ffc107;
+  }
+  
+  .card {
+    border: none;
+    border-radius: 15px;
+  }
+  
+  .card-img-top {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+  }
+  
+  .card-title {
+    color: #d14b88;
+  }
+  

@@ -3,25 +3,25 @@
     <div class="card-body">
       <h2 class="card-title h4">{{ user.name }}</h2>
       <hr />
-      
+
       <!-- Display User ID -->
       <p class="card-text">
         <strong>ID:</strong> {{ user.id }}
       </p>
-      
+
       <!-- Display User Email -->
       <p class="card-text">
         <strong>Email:</strong> {{ user.email }}
       </p>
 
-      <!-- Display User Password (Note: Usually, you'd never display a password like this, it's just for demonstration) -->
+      <!-- Display User Password (Masked) -->
       <p class="card-text">
-        <strong>Password:</strong> ********  <!-- Masked for security -->
+        <strong>Password:</strong> ********
       </p>
 
       <!-- Display User Role -->
       <p class="card-text">
-        <strong>Role:</strong> 
+        <strong>Role:</strong>
         <span class="badge" [ngClass]="{
           'bg-success': user.role === 'Admin',
           'bg-warning text-dark': user.role === 'Editor',
@@ -31,6 +31,16 @@
           {{ user.role }}
         </span>
       </p>
+
+      <!-- Buttons -->
+      <div class="mt-3">
+        <button class="rounded-pink-btn edit me-2" [routerLink]="['/user-form', user.id]">
+          <i class="bi bi-pencil"></i> Edit
+        </button>
+        <button class="rounded-pink-btn delete" (click)="onDelete(user.id)">
+          <i class="bi bi-trash"></i> Delete
+        </button>
+      </div>      
     </div>
   </div>
 </div>

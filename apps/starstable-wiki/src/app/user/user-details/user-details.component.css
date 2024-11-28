@@ -62,3 +62,36 @@ hr {
   margin-top: 15px;
   margin-bottom: 15px;
 }
+
+.rounded-pink-btn {
+  border: none;
+  border-radius: 30px;
+  padding: 10px 20px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  background: linear-gradient(135deg, #FF69B4, #d14b88);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.rounded-pink-btn i {
+  margin-right: 5px;
+}
+
+.rounded-pink-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.rounded-pink-btn:active {
+  transform: scale(0.95);
+}
+
+.rounded-pink-btn.edit {
+  background: linear-gradient(135deg, #FF69B4, #d14b88);
+}
+
+.rounded-pink-btn.delete {
+  background: linear-gradient(135deg, #d14b88, #FF69B4);
+}
