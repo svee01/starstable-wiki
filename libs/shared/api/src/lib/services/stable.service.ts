@@ -9,7 +9,7 @@ import { Stable } from '../models/stable.interface';
 export class StableService {
   private baseUrl = 'https://api.example.com/stables'; // Mock or real API endpoint
   private stables: Stable[];
-  private nextId: number = 1;
+  private nextId = 1;
 
   constructor(private http: HttpClient) {
     this.stables = [

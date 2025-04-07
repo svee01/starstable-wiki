@@ -2,7 +2,7 @@ import { Body, Controller, Get, HttpCode, HttpStatus, Post, UseGuards, Request }
 import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './jwt-auth.guard';
-import { UserCredentials } from '@StardewConnect/libs/data';
+import { UserCredentials } from '@starstable-wiki/shared/api';
 import { InjectToken, Token } from './token.decorator';
 
 @Controller('auth')

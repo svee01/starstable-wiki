@@ -15,7 +15,7 @@ export class HorseService {
 //   private characters: Character[];
 //   private users: User[];
 //   private stables: Stable[];
-  private nextId: number = 1;
+  private nextId = 1;
 
   constructor(private http: HttpClient) {
     // this.users = [
