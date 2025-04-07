@@ -9,7 +9,7 @@ import { User } from '../models/user.interface';
 export class UserService {
   private baseUrl = 'https://api.example.com/users'; // Mock of echte API
   private users: User[];
-  private nextId: number = 1;
+  private nextId = 1;
 
   constructor(private http: HttpClient) {
     this.users = [
