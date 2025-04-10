@@ -1,4 +1,4 @@
-import { IsMongoId, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsArray, IsMongoId, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateCharacterDto {
   @IsString()
@@ -13,4 +13,9 @@ export class CreateCharacterDto {
 
   @IsMongoId()
   stableId: string;
+
+  @IsArray()
+  @IsMongoId({ each: true })
+  @IsOptional()
+  horses?: string[];
 }

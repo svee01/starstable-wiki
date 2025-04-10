@@ -13,7 +13,6 @@ export class UserService {
     private readonly neo4jService: Neo4jService
   ) {}
 
-  // 🔥 GET FROM MONGODB
   async getAll() {
     const users = await this.userModel.find().exec();
     return { results: users };
@@ -29,7 +28,6 @@ export class UserService {
     return { results: user };
   }
 
-  // 🔥 PUSH TO MONGO + NEO4J
   async addUser(user: User) {
     try {
       user.password = await bcrypt.hash(user.password, 10);
@@ -56,7 +54,6 @@ export class UserService {
     }
   }
 
-  // 🔥 UPDATE MONGO + NEO4J
   async updateUser(updatedUser: User, tokenUserId: string) {
     if (updatedUser._id !== tokenUserId) {
       throw new ForbiddenException('You are not authorized to update this user');
@@ -77,7 +74,6 @@ export class UserService {
     return user;
   }
 
-  // 🔥 DELETE FROM MONGO + NEO4J
   async deleteUser(userId: string, tokenUserId: string) {
     if (userId !== tokenUserId) {
       throw new ForbiddenException('You are not authorized to delete this user');

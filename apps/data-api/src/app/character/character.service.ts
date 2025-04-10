@@ -4,11 +4,14 @@ import { Character, CharacterDocument } from './schemas/character.schema';
 import { Model } from 'mongoose';
 import { Neo4jService } from '../neo4j/neo4j.service';
 import { characterCypher } from './neo4j/character.cypher';
+import { Horse, HorseDocument } from '../horse/schemas/horse.schema';
+import { horseCypher } from '../horse/neo4j/horse.cypher';
 
 @Injectable()
 export class CharacterService {
   constructor(
     @InjectModel(Character.name) private characterModel: Model<CharacterDocument>,
+    @InjectModel(Horse.name) private horseModel: Model<HorseDocument>,
     private readonly neo4jService: Neo4jService
   ) {}
 
@@ -30,15 +33,36 @@ export class CharacterService {
 
   async create(character: Character) {
     const createdCharacter = await (await new this.characterModel(character)).save();
+  
     await this.neo4jService.write(characterCypher.addCharacter, {
       id: createdCharacter._id.toString(),
       name: createdCharacter.name,
       ridingSkill: createdCharacter.ridingSkill,
-      userId: createdCharacter.userId.toString(),   // ✅ FIX
-      stableId: createdCharacter.stableId.toString() // ✅ FIX
-    });    
+      userId: createdCharacter.userId.toString(),
+      stableId: createdCharacter.stableId.toString(),
+    });
+  
+    const existingHorse = await this.horseModel.findOne({ characterId: createdCharacter._id }).exec();
+  
+    if (!existingHorse) {
+      const defaultHorse = await (await new this.horseModel({
+        name: 'Starter Horse',
+        breed: 'Jorvik Warmblood',
+        age: 1,
+        characterId: createdCharacter._id,
+      })).save();
+  
+      await this.neo4jService.write(horseCypher.addHorse, {
+        id: defaultHorse._id.toString(),
+        name: defaultHorse.name,
+        breed: defaultHorse.breed,
+        age: defaultHorse.age,
+        characterId: createdCharacter._id.toString(),
+      });
+    }
+  
     return createdCharacter;
-  }
+  }  
 
   async update(id: string, character: Character) {
     const updatedCharacter = await this.characterModel.findByIdAndUpdate(id, character, { new: true }).exec();
