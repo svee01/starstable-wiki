@@ -1,6 +1,7 @@
 export interface Stable {
-    id: string;
+    _id: string;
     name: string;
     location: string;
+    // characterId: string;
   }
   

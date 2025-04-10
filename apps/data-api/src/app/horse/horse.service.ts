@@ -1,46 +1,55 @@
 import { Injectable } from '@nestjs/common';
-import { Horse } from './schemas/horse.schema';
+import { InjectModel } from '@nestjs/mongoose';
+import { Horse, HorseDocument } from './schemas/horse.schema';
+import { Model } from 'mongoose';
 import { Neo4jService } from '../neo4j/neo4j.service';
 import { horseCypher } from './neo4j/horse.cypher';
 
 @Injectable()
 export class HorseService {
-  constructor(private readonly neo4jService: Neo4jService) {}
+  constructor(
+    @InjectModel(Horse.name) private horseModel: Model<HorseDocument>,
+    private readonly neo4jService: Neo4jService
+  ) {}
 
   async getAll() {
-    const result = await this.neo4jService.read(horseCypher.getAllHorses, {});
-    const horses = result.records.map((record) => ({
-      ...record.get('horse').properties,
-      character: record.get('character')?.properties ?? null,
-    }));
+    const horses = await this.horseModel.find().populate('characterId').exec();
     return { results: horses };
   }
 
   async getById(id: string) {
-    const result = await this.neo4jService.read(horseCypher.getHorseById, { id });
-    const record = result.records[0];
-    return {
-      results: {
-        ...record.get('horse').properties,
-        character: record.get('character')?.properties ?? null,
-      },
-    };
+    const horse = await this.horseModel.findById(id).populate('characterId').exec();
+    return { results: horse };
   }
 
-  async addHorse(horse: Horse) {
-    await this.neo4jService.write(horseCypher.addHorse, horse);
-    return horse;
+  async create(horse: Horse) {
+    const createdHorse = await (await new this.horseModel(horse)).save();
+    await this.neo4jService.write(horseCypher.addHorse, {
+      id: createdHorse._id.toString(),
+      name: createdHorse.name,
+      breed: createdHorse.breed,
+      age: createdHorse.age,
+      characterId: createdHorse.characterId,
+    });
+    return createdHorse;
   }
 
-  async updateHorse(horse: Horse, userId: string) {
-    // Add ownership check if needed
-    await this.neo4jService.write(horseCypher.updateHorse, horse);
-    return horse;
+  async update(id: string, horse: Horse) {
+    const updatedHorse = await this.horseModel.findByIdAndUpdate(id, horse, { new: true }).exec();
+    await this.neo4jService.write(horseCypher.updateHorse, {
+      id: updatedHorse._id.toString(),
+      name: updatedHorse.name,
+      breed: updatedHorse.breed,
+      age: updatedHorse.age,
+    });
+    return updatedHorse;
   }
 
-  async deleteHorse(horseId: string, userId: string) {
-    // Add ownership check if needed
-    await this.neo4jService.write(horseCypher.removeHorse, { id: horseId });
-    return { message: 'Horse deleted' };
+  async delete(id: string) {
+    const deletedHorse = await this.horseModel.findByIdAndDelete(id).exec();
+    await this.neo4jService.write(horseCypher.deleteHorse, {
+      id: id,
+    });
+    return deletedHorse;
   }
 }

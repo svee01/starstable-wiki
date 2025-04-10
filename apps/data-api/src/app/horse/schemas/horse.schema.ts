@@ -8,7 +8,7 @@ export type HorseDocument = Horse & Document;
 @Schema()
 export class Horse {
   @IsMongoId()
-  _id: string;
+  _id?: string;
 
   @Prop({ required: true })
   name: string;

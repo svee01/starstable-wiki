@@ -27,8 +27,8 @@ export class CharacterService {
     //     { id: '3', name: 'Silverglade Stable', location: 'Silverglade' },
     // ];
     this.characters = [
-      { id: '1', name: 'John Doe', ridingSkill: 75, userId: '1', stableId: '1' },
-      { id: '2', name: 'Jane Smith', ridingSkill: 85, userId: '1', stableId: '1' },
+      { _id: '1', name: 'John Doe', ridingSkill: 75, userId: '1', stableId: '1' },
+      { _id: '2', name: 'Jane Smith', ridingSkill: 85, userId: '1', stableId: '1' },
     ];
     this.nextId = this.characters.length + 1;
   }
@@ -38,7 +38,7 @@ export class CharacterService {
   }
 
   getCharacterById(id: string): Observable<Character> {
-    const character = this.characters.find((char) => char.id === id);
+    const character = this.characters.find((char) => char._id === id);
     if (!character) {
       throw new Error(`Character with id ${id} not found`);
     }
@@ -55,7 +55,7 @@ export class CharacterService {
   }
 
   updateCharacter(id: string, character: Character): Observable<void> {
-    const index = this.characters.findIndex((char) => char.id === id);
+    const index = this.characters.findIndex((char) => char._id === id);
     if (index === -1) {
       throw new Error(`Character with id ${id} not found`);
     }
@@ -64,7 +64,7 @@ export class CharacterService {
   }
 
   deleteCharacter(id: string): Observable<void> {
-    const index = this.characters.findIndex((char) => char.id === id);
+    const index = this.characters.findIndex((char) => char._id === id);
     if (index === -1) {
       throw new Error(`Character with id ${id} not found`);
     }

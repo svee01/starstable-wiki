@@ -33,9 +33,9 @@ export class HorseService {
     //     { id: '2', name: 'Jane Smith', ridingSkill: 85, user: this.users[1], stable: this.stables[1] },
     // ];
     this.horses = [
-      { id: '1', characterId: '1', name: 'Thunder', breed: 'Arabian', age: 5 },
-      { id: '2', characterId: '1', name: 'Shadow', breed: 'Friesian', age: 7 },
-      { id: '3', characterId: '1', name: 'Star', breed: 'Mustang', age: 4 },
+      { _id: '1', characterId: '1', name: 'Thunder', breed: 'Arabian', age: 5 },
+      { _id: '2', characterId: '1', name: 'Shadow', breed: 'Friesian', age: 7 },
+      { _id: '3', characterId: '1', name: 'Star', breed: 'Mustang', age: 4 },
     ];
     this.nextId = this.horses.length + 1;
   }
@@ -45,7 +45,7 @@ export class HorseService {
   }
 
   getHorseById(id: string): Observable<Horse> {
-    const horse = this.horses.find((horse) => horse.id === id);
+    const horse = this.horses.find((horse) => horse._id === id);
     if (!horse) {
       throw new Error(`Horse with id ${id} not found`);
     }
@@ -62,7 +62,7 @@ export class HorseService {
   }
 
   updateHorse(id: string, horse: Horse): Observable<void> {
-    const index = this.horses.findIndex((horse) => horse.id === id);
+    const index = this.horses.findIndex((horse) => horse._id === id);
     if (index === -1) {
       throw new Error(`Horse with id ${id} not found`);
     }
@@ -71,7 +71,7 @@ export class HorseService {
   }
 
   deleteHorse(id: string): Observable<void> {
-    const index = this.horses.findIndex((horse) => horse.id === id);
+    const index = this.horses.findIndex((horse) => horse._id === id);
     if (index === -1) {
       throw new Error(`Horse with id ${id} not found`);
     }

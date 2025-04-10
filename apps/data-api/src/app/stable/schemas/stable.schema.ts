@@ -7,7 +7,7 @@ export type StableDocument = Stable & Document;
 @Schema()
 export class Stable {
   @IsMongoId()
-  _id: string;
+  _id?: string;
 
   @Prop({ required: true })
   name: string;

@@ -5,14 +5,15 @@ export const characterCypher = {
    * returns: character
    */
   addCharacter: `
-    MATCH (user:User {id: $userId}), (stable:Stable {id: $stableId})
+    MERGE (user:User {id: $userId})
+    MERGE (stable:Stable {id: $stableId})
     CREATE (character:Character {
       id: $id,
       name: $name,
       ridingSkill: $ridingSkill
     })
+    CREATE (character)-[:BELONGS_TO]->(stable)
     CREATE (character)-[:OWNED_BY]->(user)
-    CREATE (character)-[:STABLED_AT]->(stable)
     RETURN character
   `,
 
@@ -37,9 +38,9 @@ export const characterCypher = {
   /** params: id */
   getCharacterById: `
     MATCH (character:Character {id: $id})
+    OPTIONAL MATCH (character)-[:BELONGS_TO]->(stable:Stable)
     OPTIONAL MATCH (character)-[:OWNED_BY]->(user:User)
-    OPTIONAL MATCH (character)-[:STABLED_AT]->(stable:Stable)
-    RETURN character, user, stable
+    RETURN character, stable, user
   `,
 
   /**
@@ -47,8 +48,8 @@ export const characterCypher = {
    */
   getAllCharacters: `
     MATCH (character:Character)
+    OPTIONAL MATCH (character)-[:BELONGS_TO]->(stable:Stable)
     OPTIONAL MATCH (character)-[:OWNED_BY]->(user:User)
-    OPTIONAL MATCH (character)-[:STABLED_AT]->(stable:Stable)
-    RETURN character, user, stable
+    RETURN character, stable, user
   `,
 };

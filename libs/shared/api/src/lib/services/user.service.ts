@@ -13,9 +13,9 @@ export class UserService {
 
   constructor(private http: HttpClient) {
     this.users = [
-      { id: '1', name: 'John Doe', email: 'johndoe@gmail.com', role: 'Admin', password: 'password' },
-      { id: '2', name: 'Jane Smith', email: 'janesmith@gmail.com', role: 'User', password: 'password' },
-      { id: '3', name: 'Alice Johnson', email: 'alicejohnson@gmail.com', role: 'User', password: 'password' },
+      { _id: '1', name: 'John Doe', email: 'johndoe@gmail.com', role: 'Admin', password: 'password' },
+      { _id: '2', name: 'Jane Smith', email: 'janesmith@gmail.com', role: 'User', password: 'password' },
+      { _id: '3', name: 'Alice Johnson', email: 'alicejohnson@gmail.com', role: 'User', password: 'password' },
     ];
     this.nextId = this.users.length + 1;
   }
@@ -25,7 +25,7 @@ export class UserService {
   }
 
   getUserById(id: string): Observable<User> {
-    const user = this.users.find((user) => user.id === id);
+    const user = this.users.find((user) => user._id === id);
     if (!user) {
       throw new Error(`User with id ${id} not found`);
     }
@@ -42,13 +42,13 @@ export class UserService {
   }
 
   updateUser(id: string, user: User): Observable<void> {
-    const index = this.users.findIndex((user) => user.id === id);
+    const index = this.users.findIndex((user) => user._id === id);
     this.users[index] = user;
     return of(undefined);
   }
 
   deleteUser(id: string): Observable<void> {
-    const index = this.users.findIndex((user) => user.id === id);
+    const index = this.users.findIndex((user) => user._id === id);
     this.users.splice(index, 1);
     return of(undefined);
   }

@@ -13,9 +13,9 @@ export class StableService {
 
   constructor(private http: HttpClient) {
     this.stables = [
-      { id: '1', name: 'Moorland Stable', location: 'Moorland' },
-      { id: '2', name: 'Golden Hills Stable', location: 'Jaspers Farm' },
-      { id: '3', name: 'Silverglade Stable', location: 'Silverglade' },
+      { _id: '1', name: 'Moorland Stable', location: 'Moorland' },
+      { _id: '2', name: 'Golden Hills Stable', location: 'Jaspers Farm' },
+      { _id: '3', name: 'Silverglade Stable', location: 'Silverglade' },
     ];
     this.nextId = this.stables.length + 1;
   }
@@ -25,7 +25,7 @@ export class StableService {
   }
 
   getStableById(id: string): Observable<Stable> {
-    const stable = this.stables.find((stable) => stable.id === id);
+    const stable = this.stables.find((stable) => stable._id === id);
     if (!stable) {
       throw new Error(`Stable with id ${id} not found`);
     }
@@ -42,7 +42,7 @@ export class StableService {
   }
 
   updateStable(id: string, stable: Stable): Observable<void> {
-    const index = this.stables.findIndex((stable) => stable.id === id);
+    const index = this.stables.findIndex((stable) => stable._id === id);
     if (index === -1) {
       throw new Error(`Stable with id ${id} not found`);
     }
@@ -51,7 +51,7 @@ export class StableService {
   }
 
   deleteStable(id: string): Observable<void> {
-    const index = this.stables.findIndex((stable) => stable.id === id);
+    const index = this.stables.findIndex((stable) => stable._id === id);
     if (index === -1) {
       throw new Error(`Stable with id ${id} not found`);
     }

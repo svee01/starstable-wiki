@@ -4,6 +4,7 @@ import { AuthService } from './auth.service';
 import { AuthGuard } from './jwt-auth.guard';
 import { UserCredentials } from '@starstable-wiki/shared/api';
 import { InjectToken, Token } from './token.decorator';
+import { LoginDto } from './login.dto';
 
 @Controller('auth')
 @ApiTags('Auth')
@@ -12,10 +13,10 @@ export class AuthController {
 
     @HttpCode(HttpStatus.OK)
     @Post('login')
-    login(@Body() credentialsDto: UserCredentials){
-        return this.authService.login(credentialsDto.username, credentialsDto.password);
+        async login(@Body() loginDto: LoginDto) {
+        return this.authService.login(loginDto.email, loginDto.pass);
     }
-
+    
     @UseGuards(AuthGuard)
     @Get('profile')
     getProfile(@InjectToken() token: Token){

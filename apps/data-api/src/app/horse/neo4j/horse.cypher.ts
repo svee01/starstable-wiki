@@ -17,7 +17,7 @@ export const horseCypher = {
   `,
 
   /** params: id */
-  removeHorse: `
+  deleteHorse: `
     MATCH (horse:Horse {id: $id})
     DETACH DELETE horse
   `,

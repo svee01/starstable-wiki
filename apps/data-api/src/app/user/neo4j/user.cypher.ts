@@ -1,8 +1,4 @@
 export const userCypher = {
-  /**
-   * params: id, name, email, password, role
-   * returns: user
-   */
   addUser: `
     CREATE (user:User {
       id: $id,
@@ -13,16 +9,6 @@ export const userCypher = {
     })
     RETURN user
   `,
-
-  getUserByUsername: 'MATCH (user:User {username: $username}) RETURN user',
-
-  /** params: id */
-  removeUser: `
-    MATCH (user:User {id: $id})
-    DETACH DELETE user
-  `,
-
-  /** params: id, name, email, password, role */
   updateUser: `
     MATCH (user:User {id: $id})
     SET user.name = $name,
@@ -31,16 +17,20 @@ export const userCypher = {
         user.role = $role
     RETURN user
   `,
-
-  /** params: id */
+  removeUser: `
+    MATCH (user:User {id: $id})
+    DETACH DELETE user
+  `,
   getUserById: `
     MATCH (user:User {id: $id})
     RETURN user
   `,
-
-  /** returns user[] */
+  getUserByEmail: `
+    MATCH (user:User {email: $email})
+    RETURN user
+  `,
   getAllUsers: `
     MATCH (user:User)
     RETURN user
-  `,
+  `
 };

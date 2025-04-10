@@ -1,48 +1,92 @@
-import { Injectable, ForbiddenException } from '@nestjs/common';
-import { User } from './schemas/user.schema';
+import { Injectable, ForbiddenException, HttpException } from '@nestjs/common';
+import { User, UserDocument } from './schemas/user.schema';
 import { Neo4jService } from '../neo4j/neo4j.service';
 import { userCypher } from './neo4j/user.cypher';
+import * as bcrypt from 'bcrypt';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly neo4jService: Neo4jService) {}
+  constructor(
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
+    private readonly neo4jService: Neo4jService
+  ) {}
 
+  // 🔥 GET FROM MONGODB
   async getAll() {
-    const result = await this.neo4jService.read(userCypher.getAllUsers, {});
-    const users = result.records.map((record) => record.get('user').properties);
+    const users = await this.userModel.find().exec();
     return { results: users };
   }
 
-  async getUserByUsername(username: string) {
-    const result = await this.neo4jService.read(userCypher.getUserByUsername, { username });
-    const record = result.records[0];
-    return { results: record.get('user').properties };
-  }
-
   async getUserById(id: string) {
-    const result = await this.neo4jService.read(userCypher.getUserById, { id });
-    const record = result.records[0];
-    return { results: record.get('user').properties };
+    const user = await this.userModel.findById(id).exec();
+    return { results: user };
   }
 
+  async getUserByUsername(email: string) {
+    const user = await this.userModel.findOne({ email }).exec();
+    return { results: user };
+  }
+
+  // 🔥 PUSH TO MONGO + NEO4J
   async addUser(user: User) {
-    await this.neo4jService.write(userCypher.addUser, user);
+    try {
+      user.password = await bcrypt.hash(user.password, 10);
+
+      const createdUser = await new this.userModel(user).save();
+
+      await this.neo4jService.write(userCypher.addUser, {
+        id: createdUser.id || createdUser._id.toString(),
+        name: createdUser.name,
+        email: createdUser.email,
+        password: createdUser.password,
+        role: createdUser.role,
+      });
+
+      return createdUser;
+    } catch (error) {
+      console.log('Error creating user: ', error);
+      if (error.code === 11000) {
+        if (error.keyPattern?.email) {
+          throw new HttpException('Email is already taken', 400);
+        }
+      }
+      throw new HttpException('Error creating user', 500);
+    }
+  }
+
+  // 🔥 UPDATE MONGO + NEO4J
+  async updateUser(updatedUser: User, tokenUserId: string) {
+    if (updatedUser._id !== tokenUserId) {
+      throw new ForbiddenException('You are not authorized to update this user');
+    }
+
+    const user = await this.userModel
+      .findByIdAndUpdate(updatedUser._id, updatedUser, { new: true })
+      .exec();
+
+    await this.neo4jService.write(userCypher.updateUser, {
+      id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      password: updatedUser.password,
+      role: updatedUser.role,
+    });
+
     return user;
   }
 
-  async updateUser(updatedUser: User, userId: string) {
-    if (updatedUser._id !== userId) {
-      throw new ForbiddenException('You are not authorized to update this user');
-    }
-    await this.neo4jService.write(userCypher.updateUser, updatedUser);
-    return updatedUser;
-  }
-
+  // 🔥 DELETE FROM MONGO + NEO4J
   async deleteUser(userId: string, tokenUserId: string) {
     if (userId !== tokenUserId) {
       throw new ForbiddenException('You are not authorized to delete this user');
     }
+
+    await this.userModel.findByIdAndDelete(userId).exec();
+
     await this.neo4jService.write(userCypher.removeUser, { id: userId });
+
     return { message: 'User deleted' };
   }
 }

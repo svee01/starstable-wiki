@@ -1,9 +1,4 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
-
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';  // 🆕 import ValidationPipe
 import { NestFactory } from '@nestjs/core';
 
 import { ApiResponseInterceptor } from '@starstable-wiki/backend/dto';
@@ -19,7 +14,17 @@ async function bootstrap() {
   const corsOptions: CorsOptions = {};
   app.enableCors(corsOptions);
 
+  // 🛡️ Add global validation pipe
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,    // only allow properties that are in the DTO
+      forbidNonWhitelisted: true, // throw error if extra properties are sent
+      transform: true,    // automatically transform payloads to DTO instances
+    })
+  );
+
   app.useGlobalInterceptors(new ApiResponseInterceptor());
+
   const port = process.env.PORT || 3000;
   await app.listen(port);
   Logger.log(
