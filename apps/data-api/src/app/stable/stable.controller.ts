@@ -1,6 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { StableService } from './stable.service';
-import { Stable } from './schemas/stable.schema';
 import { AuthGuard } from '../auth/jwt-auth.guard';
 import { CreateStableDto } from './schemas/stable.dto';
 

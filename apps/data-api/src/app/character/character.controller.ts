@@ -1,6 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { CharacterService } from './character.service';
-import { Character } from './schemas/character.schema';
 import { AuthGuard } from '../auth/jwt-auth.guard';
 import { CreateCharacterDto } from './schemas/character.dto';
 

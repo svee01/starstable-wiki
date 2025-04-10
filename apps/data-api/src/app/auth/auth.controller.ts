@@ -2,7 +2,6 @@ import { Body, Controller, Get, HttpCode, HttpStatus, Post, UseGuards, Request }
 import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './jwt-auth.guard';
-import { UserCredentials } from '@starstable-wiki/shared/api';
 import { InjectToken, Token } from './token.decorator';
 import { LoginDto } from './login.dto';
 
@@ -16,7 +15,7 @@ export class AuthController {
         async login(@Body() loginDto: LoginDto) {
         return this.authService.login(loginDto.email, loginDto.pass);
     }
-    
+
     @UseGuards(AuthGuard)
     @Get('profile')
     getProfile(@InjectToken() token: Token){

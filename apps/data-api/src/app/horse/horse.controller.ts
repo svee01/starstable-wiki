@@ -1,6 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { HorseService } from './horse.service';
-import { Horse } from './schemas/horse.schema';
 import { AuthGuard } from '../auth/jwt-auth.guard';
 import { CreateHorseDto } from './schemas/horse.dto';
 
