@@ -13,17 +13,17 @@ export class StableService {
     private readonly neo4jService: Neo4jService
   ) {}
 
-  async getAll() {
+  async getAll(): Promise<{ results: Stable[] }> {
     const stables = await this.stableModel.find().exec();
     return { results: stables };
   }
 
-  async getById(id: string) {
+  async getById(id: string): Promise<{ results: Stable }> {
     const stable = await this.stableModel.findById(id).exec();
     return { results: stable };
   }
 
-  async create(stable: CreateStableDto) {
+  async create(stable: CreateStableDto): Promise<Stable> {
     const createdStable = await (await new this.stableModel(stable)).save();
     await this.neo4jService.write(stableCypher.addStable, {
       id: createdStable._id.toString(),
@@ -33,7 +33,7 @@ export class StableService {
     return createdStable;
   }  
 
-  async update(id: string, stable: Stable) {
+  async update(id: string, stable: Stable): Promise<Stable> {
     const updatedStable = await this.stableModel.findByIdAndUpdate(id, stable, { new: true }).exec();
     await this.neo4jService.write(stableCypher.updateStable, {
       id: updatedStable._id.toString(),
@@ -43,7 +43,7 @@ export class StableService {
     return updatedStable;
   }
 
-  async delete(id: string) {
+  async delete(id: string): Promise<Stable> {
     const deletedStable = await this.stableModel.findByIdAndDelete(id).exec();
     await this.neo4jService.write(stableCypher.removeStable, { id });
     return deletedStable;

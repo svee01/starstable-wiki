@@ -38,6 +38,12 @@ export class UserController {
     return this.userService.getUserByUsername(username);
   }
 
+  @Get('character')
+  @UseGuards(AuthGuard)
+  getCharacter(@InjectToken() token: Token) {
+    return this.userService.getCharacterByUserId(token.sub);
+  }
+
   @Post()
   @ApiResponse({ status: 201, description: 'User created successfully' })
   addUser(@Body() user: User) {

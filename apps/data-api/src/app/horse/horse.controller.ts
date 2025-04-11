@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nes
 import { HorseService } from './horse.service';
 import { AuthGuard } from '../auth/jwt-auth.guard';
 import { CreateHorseDto } from './schemas/horse.dto';
+import { InjectToken, Token } from '../auth/token.decorator';
 
 @Controller('horse')
 export class HorseController {
@@ -25,13 +26,13 @@ export class HorseController {
 
   @Put(':id')
   @UseGuards(AuthGuard)
-  update(@Param('id') id: string, @Body() horse: CreateHorseDto) {
-    return this.horseService.update(id, horse);
+  update(@Param('id') id: string, @Body() horse: CreateHorseDto, @InjectToken() token: Token) {
+    return this.horseService.update(id, horse, token.sub);
   }
 
   @Delete(':id')
-  @UseGuards(AuthGuard)  // 🛡️ Only logged-in users can delete
-  delete(@Param('id') id: string) {
-    return this.horseService.delete(id);
+  @UseGuards(AuthGuard)
+  delete(@Param('id') id: string, @InjectToken() token: Token) {
+    return this.horseService.delete(id, token.sub);
   }
 }

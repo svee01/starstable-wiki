@@ -5,30 +5,32 @@ import { userCypher } from './neo4j/user.cypher';
 import * as bcrypt from 'bcrypt';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { Character, CharacterDocument } from '../character/schemas/character.schema';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel(User.name) private userModel: Model<UserDocument>,
-    private readonly neo4jService: Neo4jService
+    @InjectModel(Character.name) private characterModel: Model<CharacterDocument>,
+    private readonly neo4jService: Neo4jService,
   ) {}
 
-  async getAll() {
+  async getAll(): Promise<{ results: User[] }> {
     const users = await this.userModel.find().exec();
     return { results: users };
   }
 
-  async getUserById(id: string) {
+  async getUserById(id: string): Promise<{ results: User }> {
     const user = await this.userModel.findById(id).exec();
     return { results: user };
   }
 
-  async getUserByUsername(email: string) {
+  async getUserByUsername(email: string): Promise<{ results: User }> {
     const user = await this.userModel.findOne({ email }).exec();
     return { results: user };
   }
 
-  async addUser(user: User) {
+  async addUser(user: User): Promise<User> {
     try {
       user.password = await bcrypt.hash(user.password, 10);
 
@@ -54,7 +56,12 @@ export class UserService {
     }
   }
 
-  async updateUser(updatedUser: User, tokenUserId: string) {
+  async getCharacterByUserId(userId: string): Promise<{ results: Character }> {
+    const character = await this.characterModel.findOne({ userId }).populate('stableId').exec();
+    return { results: character };
+  }  
+
+  async updateUser(updatedUser: User, tokenUserId: string): Promise<User> {
     if (updatedUser._id !== tokenUserId) {
       throw new ForbiddenException('You are not authorized to update this user');
     }
@@ -74,7 +81,7 @@ export class UserService {
     return user;
   }
 
-  async deleteUser(userId: string, tokenUserId: string) {
+  async deleteUser(userId: string, tokenUserId: string): Promise<{ message: string }> {
     if (userId !== tokenUserId) {
       throw new ForbiddenException('You are not authorized to delete this user');
     }

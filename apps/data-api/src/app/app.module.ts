@@ -22,7 +22,7 @@ import { ConfigModule } from '@nestjs/config';
       username: process.env.NEO4J_USR,
       password: process.env.NEO4J_PWD,
       database: process.env.NEO4J_DATABASE,
-  }),
+    }),
     CharacterModule,
     HorseModule,
     StableModule,
