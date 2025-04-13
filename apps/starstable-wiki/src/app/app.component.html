@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>StarStable Wiki</title>
   <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body>
   <nav class="navbar navbar-expand-lg">
@@ -13,7 +13,7 @@
       <a class="navbar-brand" routerLink="/">
         <img src="starstable-logo-big.png" alt="StarStable Logo" class="logo-img">
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
@@ -21,20 +21,35 @@
           <li class="nav-item">
             <a class="nav-link" routerLink="/">Home</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/users">Users</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/horses">Horses</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/characters">Characters</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/stables">Stables</a>
-          </li>
+  
+          <!-- Alleen tonen als ingelogd EN character bestaat -->
+          <ng-container *ngIf="isLoggedIn() && hasCharacter">
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/users">Users</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/horses">Horses</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/characters">Characters</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/stables">Stables</a>
+            </li>
+          </ng-container>
+  
           <li class="nav-item">
             <a class="nav-link" routerLink="/about">About Page</a>
+          </li>
+  
+          <!-- Login / Logout -->
+          <li *ngIf="!isLoggedIn()" class="nav-item">
+            <a class="nav-link" routerLink="/login">Login</a>
+          </li>
+          <li *ngIf="isLoggedIn()" class="nav-item">
+            <button class="nav-link btn btn-link" (click)="logout()" style="cursor: pointer;">
+              Logout
+            </button>
           </li>
         </ul>
       </div>

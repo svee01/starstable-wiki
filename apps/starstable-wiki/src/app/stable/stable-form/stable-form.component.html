@@ -1,26 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stable Form</title>
-</head>
-<body>
+<div class="container mt-5">
+  <h2 class="h4">{{ stable._id ? 'Edit Stable' : 'Add Stable' }}</h2>
 
-  <form (ngSubmit)="onSubmit()">
-    <h1>Stable Form</h1>
+  <form (ngSubmit)="onSubmit()" #stableForm="ngForm">
+    <div class="form-group mb-3">
+      <label for="name">Name</label>
+      <input
+        id="name"
+        type="text"
+        class="form-control"
+        name="name"
+        [(ngModel)]="stable.name"
+        required
+      />
+    </div>
 
-    <!-- ID Field (hidden for now, since it's usually auto-generated or predefined) -->
-    <input type="hidden" id="id" [(ngModel)]="stable.id" name="id" />
+    <div class="form-group mb-3">
+      <label for="location">Location</label>
+      <input
+        id="location"
+        type="text"
+        class="form-control"
+        name="location"
+        [(ngModel)]="stable.location"
+        required
+      />
+    </div>
 
-    <label for="name">Name:</label>
-    <input type="text" id="name" [(ngModel)]="stable.name" name="name" required />
-
-    <label for="location">Location:</label>
-    <input type="text" id="location" [(ngModel)]="stable.location" name="location" required />
-
-    <button type="submit">Save</button>
+    <button type="submit" class="btn btn-success">
+      {{ stable._id ? 'Update' : 'Create' }} Stable
+    </button>
   </form>
-
-</body>
-</html>
+</div>

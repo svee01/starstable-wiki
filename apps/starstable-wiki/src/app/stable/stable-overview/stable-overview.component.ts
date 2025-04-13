@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { Stable } from 'libs/shared/api/src/lib/models/stable.interface';  // Import the Stable model
-import { StableService } from 'libs/shared/api/src/lib/services/stable.service';  // Import the StableService
+import { StableService, Stable } from '@starstable-wiki/shared/api';
 
 @Component({
   selector: 'app-stable-overview',
@@ -11,12 +10,10 @@ import { StableService } from 'libs/shared/api/src/lib/services/stable.service';
   templateUrl: './stable-overview.component.html',
   styleUrls: ['./stable-overview.component.css'],
 })
-export class StableOverviewComponent implements OnInit {
-  stables: Stable[] = [];  // Array to hold stables
+export class StableOverviewComponent {
+  stables: Stable[] = [];
 
   constructor(private stableService: StableService) {
-    this.stableService.getStables().subscribe((data) => (this.stables = data));  // Fetch stables from the service
+    this.stableService.getStables().subscribe((data) => (this.stables = data));
   }
-
-  ngOnInit(): void {}
 }

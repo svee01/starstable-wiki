@@ -1,61 +1,42 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, map } from 'rxjs';
 import { Stable } from '../models/stable.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StableService {
-  private baseUrl = 'https://api.example.com/stables'; // Mock or real API endpoint
-  private stables: Stable[];
-  private nextId = 1;
+  private baseUrl = 'http://localhost:3000/api/stable';
 
-  constructor(private http: HttpClient) {
-    this.stables = [
-      { _id: '1', name: 'Moorland Stable', location: 'Moorland' },
-      { _id: '2', name: 'Golden Hills Stable', location: 'Jaspers Farm' },
-      { _id: '3', name: 'Silverglade Stable', location: 'Silverglade' },
-    ];
-    this.nextId = this.stables.length + 1;
+  constructor(private http: HttpClient) {}
+
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({ 'Authorization': `Bearer ${token}` });
   }
 
   getStables(): Observable<Stable[]> {
-    return of(this.stables);
+    return this.http.get<{ results: Stable[] }>(`${this.baseUrl}`, { headers: this.getAuthHeaders() }).pipe(
+      map(response => response.results)
+    );
   }
 
   getStableById(id: string): Observable<Stable> {
-    const stable = this.stables.find((stable) => stable._id === id);
-    if (!stable) {
-      throw new Error(`Stable with id ${id} not found`);
-    }
-    return of(stable);
+    return this.http.get<{ results: Stable }>(`${this.baseUrl}/id/${id}`, { headers: this.getAuthHeaders() }).pipe(
+      map(response => response.results)
+    );
   }
 
-  createStable(stable: Stable): Observable<void> {
-    const newStable = { ...stable, id: (this.nextId++).toString() };
-    this.stables.push(newStable);
-
-    console.log(newStable);
-
-    return of(undefined);
+  createStable(stable: Stable): Observable<Stable> {
+    return this.http.post<Stable>(`${this.baseUrl}`, stable, { headers: this.getAuthHeaders() });
   }
 
-  updateStable(id: string, stable: Stable): Observable<void> {
-    const index = this.stables.findIndex((stable) => stable._id === id);
-    if (index === -1) {
-      throw new Error(`Stable with id ${id} not found`);
-    }
-    this.stables[index] = stable;
-    return of(undefined);
+  updateStable(stable: Stable): Observable<Stable> {
+    return this.http.put<Stable>(`${this.baseUrl}/${stable._id}`, stable, { headers: this.getAuthHeaders() });
   }
 
   deleteStable(id: string): Observable<void> {
-    const index = this.stables.findIndex((stable) => stable._id === id);
-    if (index === -1) {
-      throw new Error(`Stable with id ${id} not found`);
-    }
-    this.stables.splice(index, 1);
-    return of(undefined);
+    return this.http.delete<void>(`${this.baseUrl}/${id}`, { headers: this.getAuthHeaders() });
   }
 }

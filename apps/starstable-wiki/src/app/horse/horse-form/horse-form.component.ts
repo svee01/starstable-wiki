@@ -1,23 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Horse } from 'libs/shared/api/src/lib/models/horse.interface'; // Adjust import according to your project structure
-import { HorseService } from 'libs/shared/api/src/lib/services/horse.service'; // Adjust import according to your project structure
+import { HorseService, Horse } from '@starstable-wiki/shared/api';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';  // Import HttpClientModule
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-horse-form',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule], // Add HttpClientModule here
+  imports: [CommonModule, FormsModule, HttpClientModule],
   templateUrl: './horse-form.component.html',
   styleUrls: ['./horse-form.component.css'],
 })
 export class HorseFormComponent implements OnInit {
-  horse: Horse = { id: '', name: '', breed: '', age: 0, characterId: '' }; // Adjust to match your Horse model
+  horse: Horse = { _id: '', name: '', breed: '', age: 0, characterId: '' };
 
   constructor(
-    private horseService: HorseService, // Assuming you have HorseService
+    private horseService: HorseService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
@@ -30,8 +29,8 @@ export class HorseFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.horse.id) {
-      this.horseService.updateHorse(this.horse.id, this.horse).subscribe(() => {
+    if (this.horse._id) {
+      this.horseService.updateHorse(this.horse._id, this.horse).subscribe(() => {
         this.router.navigate(['/horses']);
       });
     } else {

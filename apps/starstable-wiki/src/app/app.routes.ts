@@ -1,4 +1,6 @@
 import { Route } from '@angular/router';
+import { AuthGuard } from './auth/auth.guard';
+
 import { UserOverviewComponent } from './user/user-overview/user-overview.component';
 import { UserDetailsComponent } from './user/user-details/user-details.component';
 import { AboutPageComponent } from './about-page/about-page.component';
@@ -13,24 +15,30 @@ import { CharacterFormComponent } from './character/character-form/character-for
 import { StableOverviewComponent } from './stable/stable-overview/stable-overview.component';
 import { StableDetailsComponent } from './stable/stable-details/stable-details.component';
 import { StableFormComponent } from './stable/stable-form/stable-form.component';
+import { LoginComponent } from './login/login.component';
 
 export const appRoutes: Route[] = [
-  { path: 'users', component: UserOverviewComponent },
-  { path: 'users/:id', component: UserDetailsComponent },
-  { path: 'about', component: AboutPageComponent },
   { path: '', component: HomeComponent },
-  { path: 'user-form', component: UserFormComponent },
-  { path: 'user-form/:id', component: UserFormComponent },
-  { path: 'horses', component: HorseOverviewComponent },
-  { path: 'horses/:id', component: HorseDetailsComponent },
-  { path: 'horse-form', component: HorseFormComponent },
-  { path: 'horse-form/:id', component: HorseFormComponent },
-  { path: 'characters', component: CharacterOverviewComponent },
-  { path: 'characters/:id', component: CharacterDetailsComponent },
-  { path: 'character-form', component: CharacterFormComponent },
-  { path: 'character-form/:id', component: CharacterFormComponent },
-  { path: 'stables', component: StableOverviewComponent },
-  { path: 'stables/:id', component: StableDetailsComponent },
-  { path: 'stable-form', component: StableFormComponent },
-  { path: 'stable-form/:id', component: StableFormComponent },
+  { path: 'about', component: AboutPageComponent },
+  { path: 'login', component: LoginComponent },
+
+  { path: 'users', component: UserOverviewComponent, canActivate: [AuthGuard] },
+  { path: 'users/:id', component: UserDetailsComponent, canActivate: [AuthGuard] },
+  { path: 'user-form', component: UserFormComponent, canActivate: [AuthGuard] },
+  { path: 'user-form/:id', component: UserFormComponent, canActivate: [AuthGuard] },
+
+  { path: 'horses', component: HorseOverviewComponent, canActivate: [AuthGuard] },
+  { path: 'horses/:id', component: HorseDetailsComponent, canActivate: [AuthGuard] },
+  { path: 'horse-form', component: HorseFormComponent, canActivate: [AuthGuard] },
+  { path: 'horse-form/:id', component: HorseFormComponent, canActivate: [AuthGuard] },
+
+  { path: 'characters', component: CharacterOverviewComponent, canActivate: [AuthGuard] },
+  { path: 'characters/:id', component: CharacterDetailsComponent, canActivate: [AuthGuard] },
+  { path: 'character-form', component: CharacterFormComponent, canActivate: [AuthGuard] },
+  { path: 'character-form/:id', component: CharacterFormComponent, canActivate: [AuthGuard] },
+
+  { path: 'stables', component: StableOverviewComponent, canActivate: [AuthGuard] },
+  { path: 'stables/:id', component: StableDetailsComponent, canActivate: [AuthGuard] },
+  { path: 'stable-form', component: StableFormComponent, canActivate: [AuthGuard] },
+  { path: 'stable-form/:id', component: StableFormComponent, canActivate: [AuthGuard] },
 ];

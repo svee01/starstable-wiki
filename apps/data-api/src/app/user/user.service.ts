@@ -15,19 +15,19 @@ export class UserService {
     private readonly neo4jService: Neo4jService,
   ) {}
 
-  async getAll(): Promise<{ results: User[] }> {
+  async getAll(): Promise<User[]> {
     const users = await this.userModel.find().exec();
-    return { results: users };
+    return users;
   }
 
-  async getUserById(id: string): Promise<{ results: User }> {
+  async getUserById(id: string): Promise<User> {
     const user = await this.userModel.findById(id).exec();
-    return { results: user };
+    return user;
   }
 
-  async getUserByUsername(email: string): Promise<{ results: User }> {
+  async getUserByUsername(email: string): Promise<User> {
     const user = await this.userModel.findOne({ email }).exec();
-    return { results: user };
+    return user;
   }
 
   async addUser(user: User): Promise<User> {
@@ -47,19 +47,17 @@ export class UserService {
       return createdUser;
     } catch (error) {
       console.log('Error creating user: ', error);
-      if (error.code === 11000) {
-        if (error.keyPattern?.email) {
-          throw new HttpException('Email is already taken', 400);
-        }
+      if (error.code === 11000 && error.keyPattern?.email) {
+        throw new HttpException('Email is already taken', 400);
       }
       throw new HttpException('Error creating user', 500);
     }
   }
 
-  async getCharacterByUserId(userId: string): Promise<{ results: Character }> {
+  async getCharacterByUserId(userId: string): Promise<Character> {
     const character = await this.characterModel.findOne({ userId }).populate('stableId').exec();
-    return { results: character };
-  }  
+    return character;
+  }
 
   async updateUser(updatedUser: User, tokenUserId: string): Promise<User> {
     if (updatedUser._id !== tokenUserId) {

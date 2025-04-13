@@ -17,6 +17,13 @@ export const characterCypher = {
     RETURN character
   `,
 
+  getHorsesAndStableByCharacterId: `
+    MATCH (c:Character {id: $characterId})
+    OPTIONAL MATCH (c)-[:HAS_HORSE]->(h:Horse)
+    OPTIONAL MATCH (c)-[:BELONGS_TO]->(s:Stable)
+    RETURN c, collect(h) AS horses, s
+  `,
+
   /** params: id */
   removeCharacter: `
     MATCH (character:Character {id: $id})

@@ -3,23 +3,15 @@
     <div class="card-body">
       <h2 class="card-title h4">{{ user.name }}</h2>
       <hr />
-
-      <!-- Display User ID -->
       <p class="card-text">
-        <strong>ID:</strong> {{ user.id }}
+        <strong>ID:</strong> {{ user._id }}
       </p>
-
-      <!-- Display User Email -->
       <p class="card-text">
         <strong>Email:</strong> {{ user.email }}
       </p>
-
-      <!-- Display User Password (Masked) -->
       <p class="card-text">
         <strong>Password:</strong> ********
       </p>
-
-      <!-- Display User Role -->
       <p class="card-text">
         <strong>Role:</strong>
         <span class="badge" [ngClass]="{
@@ -32,12 +24,11 @@
         </span>
       </p>
 
-      <!-- Buttons -->
       <div class="mt-3">
-        <button class="rounded-pink-btn edit me-2" [routerLink]="['/user-form', user.id]">
+        <button class="rounded-pink-btn edit me-2" [routerLink]="['/user-form', user._id]">
           <i class="bi bi-pencil"></i> Edit
         </button>
-        <button class="rounded-pink-btn delete" (click)="onDelete(user.id)">
+        <button class="rounded-pink-btn delete" *ngIf="user._id" (click)="onDelete(user._id)">
           <i class="bi bi-trash"></i> Delete
         </button>
       </div>      

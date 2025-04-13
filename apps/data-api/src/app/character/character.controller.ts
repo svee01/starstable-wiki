@@ -24,6 +24,12 @@ export class CharacterController {
     return this.characterService.create(character);
   }
 
+  @Get(':id/details')
+  @UseGuards(AuthGuard)
+  getCharacterDetails(@Param('id') id: string) {
+    return this.characterService.getHorsesAndStableByCharacterId(id);
+  }
+
   @Get(':id/horses')
   @UseGuards(AuthGuard)
   getHorses(@Param('id') characterId: string) {

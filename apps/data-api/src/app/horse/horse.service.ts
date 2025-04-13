@@ -12,14 +12,14 @@ export class HorseService {
     private readonly neo4jService: Neo4jService
   ) {}
 
-  async getAll(): Promise<{ results: Horse[] }> {
+  async getAll(): Promise<Horse[]> {
     const horses = await this.horseModel.find().populate('characterId').exec();
-    return { results: horses };
+    return horses;
   }
 
-  async getById(id: string): Promise<{ results: Horse }> {
+  async getById(id: string): Promise<Horse> {
     const horse = await this.horseModel.findById(id).populate('characterId').exec();
-    return { results: horse };
+    return horse;
   }
 
   async create(horse: Horse): Promise<Horse> {

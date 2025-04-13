@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule, Router } from '@angular/router';
-import { CharacterService } from 'libs/shared/api/src/lib/services/character.service'; // Adjust import
-import { Character } from 'libs/shared/api/src/lib/models/character.interface'; // Adjust import
+import { CharacterService, Character } from '@starstable-wiki/shared/api';
 
 @Component({
   selector: 'app-character-details',
@@ -32,14 +31,14 @@ export class CharacterDetailsComponent implements OnInit {
   }
 
   onDelete(characterId: string): void {
-    if (this.character && this.character.id) {
+    if (this.character && this.character._id) {
       const confirmDelete = confirm(
         `Are you sure you want to delete the character "${this.character.name}"?`
       );
       if (confirmDelete) {
-        this.characterService.deleteCharacter(this.character.id).subscribe(() => {
-          alert('User deleted successfully.');
-          this.router.navigate(['/users']);
+        this.characterService.deleteCharacter(this.character._id).subscribe(() => {
+          alert('Character deleted successfully.');
+          this.router.navigate(['/characters']);
         });
       }
     }

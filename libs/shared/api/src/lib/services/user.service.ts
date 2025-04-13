@@ -1,75 +1,60 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, map } from 'rxjs';
 import { User } from '../models/user.interface';
+import { Character } from '../models/character.interface'; // 👈 make sure this exists
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private baseUrl = 'https://api.example.com/users'; // Mock of echte API
-  private users: User[];
-  private nextId = 1;
+  private baseUrl = 'http://localhost:3000/api/user';
 
-  constructor(private http: HttpClient) {
-    this.users = [
-      { _id: '1', name: 'John Doe', email: 'johndoe@gmail.com', role: 'Admin', password: 'password' },
-      { _id: '2', name: 'Jane Smith', email: 'janesmith@gmail.com', role: 'User', password: 'password' },
-      { _id: '3', name: 'Alice Johnson', email: 'alicejohnson@gmail.com', role: 'User', password: 'password' },
-    ];
-    this.nextId = this.users.length + 1;
+  constructor(private http: HttpClient) {}
+
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
   }
 
   getUsers(): Observable<User[]> {
-    return of(this.users);
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+  
+    return this.http.get<{ results: User[] }>(`${this.baseUrl}`, { headers }).pipe(
+      map(response => response.results)
+    );
   }
 
   getUserById(id: string): Observable<User> {
-    const user = this.users.find((user) => user._id === id);
-    if (!user) {
-      throw new Error(`User with id ${id} not found`);
-    }
-    return of(user);
+    return this.http.get<{ results: User }>(`${this.baseUrl}/id/${id}`, { headers: this.getAuthHeaders() })
+      .pipe(map(response => response.results));
   }
 
-  createUser(user: User): Observable<void> {
-    const newUser = { ...user, id: (this.nextId++).toString() };
-    this.users.push(newUser);
-
-    console.log(newUser);
-
-    return of(undefined);
+  getUserByEmail(email: string): Observable<User> {
+    return this.http.get<{ results: User }>(`${this.baseUrl}/${email}`, { headers: this.getAuthHeaders() })
+      .pipe(map(response => response.results));
   }
 
-  updateUser(id: string, user: User): Observable<void> {
-    const index = this.users.findIndex((user) => user._id === id);
-    this.users[index] = user;
-    return of(undefined);
+  addUser(user: User): Observable<User> {
+    return this.http.post<User>(`${this.baseUrl}`, user, { headers: this.getAuthHeaders() });
+  }
+
+  updateUser(user: User): Observable<User> {
+    return this.http.put<User>(`${this.baseUrl}`, user, { headers: this.getAuthHeaders() });
   }
 
   deleteUser(id: string): Observable<void> {
-    const index = this.users.findIndex((user) => user._id === id);
-    this.users.splice(index, 1);
-    return of(undefined);
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+  
+    return this.http.delete<void>(`${this.baseUrl}/${id}`, { headers });
+  }  
+
+  getCharacterByUserId(): Observable<Character> {
+    return this.http.get<{ results: Character }>(`${this.baseUrl}/character`, { headers: this.getAuthHeaders() })
+      .pipe(map(response => response.results));
   }
-
-  // getUsers(): Observable<User[]> {
-  //   return this.http.get<User[]>(this.baseUrl);
-  // }
-
-  // getUserById(id: string): Observable<User> {
-  //   return this.http.get<User>(`${this.baseUrl}/${id}`);
-  // }
-
-  // createUser(user: User): Observable<User> {
-  //   return this.http.post<User>(this.baseUrl, user);
-  // }
-
-  // updateUser(id: string, user: User): Observable<User> {
-  //   return this.http.put<User>(`${this.baseUrl}/${id}`, user);
-  // }
-
-  // deleteUser(id: string): Observable<void> {
-  //   return this.http.delete<void>(`${this.baseUrl}/${id}`);
-  // }
 }

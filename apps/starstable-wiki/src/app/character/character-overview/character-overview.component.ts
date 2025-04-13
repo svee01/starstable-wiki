@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { CharacterService } from 'libs/shared/api/src/lib/services/character.service'; // Adjust import according to your project
-import { Character } from 'libs/shared/api/src/lib/models/character.interface'; // Adjust import according to your project
+import { CharacterService, Character } from '@starstable-wiki/shared/api';
 
 @Component({
   selector: 'app-character-overview',

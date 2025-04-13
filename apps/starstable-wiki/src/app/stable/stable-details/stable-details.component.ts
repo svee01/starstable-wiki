@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule, Router } from '@angular/router';
-import { Stable } from 'libs/shared/api/src/lib/models/stable.interface';  // Import the Stable model
-import { StableService } from 'libs/shared/api/src/lib/services/stable.service';  // Import the StableService
+import { StableService, Stable } from '@starstable-wiki/shared/api';
 
 @Component({
   selector: 'app-stable-details',
@@ -12,8 +11,8 @@ import { StableService } from 'libs/shared/api/src/lib/services/stable.service';
   styleUrls: ['./stable-details.component.css'],
 })
 export class StableDetailsComponent implements OnInit {
-  stable!: Stable;  // Define the stable object
-  stables: Stable[] = [];  // List of stables (optional, if you're fetching a list)
+  stable!: Stable;
+  stables: Stable[] = [];
 
   constructor(private route: ActivatedRoute,
     private stableService: StableService,
@@ -21,27 +20,27 @@ export class StableDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const stableId = this.route.snapshot.paramMap.get('id');  // Get stable ID from URL
+    const stableId = this.route.snapshot.paramMap.get('id');
     if (stableId !== null) {
       this.stableService.getStableById(stableId).subscribe((data) => {
-        this.stable = data;  // Assign the fetched stable data
+        this.stable = data;
       });
     } else {
-      console.error('Stable ID is null');  // Handle the case where stableId is null
+      console.error('Stable ID is null');
     }
   }
   
-  onDelete(stableId: string): void {
-    if (this.stable && this.stable.id) {
+  onDelete(): void {
+    if (this.stable && this.stable._id) {
       const confirmDelete = confirm(
         `Are you sure you want to delete the stable "${this.stable.name}"?`
       );
       if (confirmDelete) {
-        this.stableService.deleteStable(this.stable.id).subscribe(() => {
-          alert('User deleted successfully.');
+        this.stableService.deleteStable(this.stable._id).subscribe(() => {
+          alert('Stable deleted successfully.');
           this.router.navigate(['/stables']);
         });
       }
     }
-  }
+  }  
 }

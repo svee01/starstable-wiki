@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { Horse } from 'libs/shared/api/src/lib/models/horse.interface'; // Adjust import based on your project structure
-import { HorseService } from 'libs/shared/api/src/lib/services/horse.service'; // Adjust import based on your project structure
+import { HorseService, Horse } from '@starstable-wiki/shared/api';
 
 @Component({
   selector: 'app-horse-overview',
@@ -11,12 +10,10 @@ import { HorseService } from 'libs/shared/api/src/lib/services/horse.service'; /
   templateUrl: './horse-overview.component.html',
   styleUrls: ['./horse-overview.component.css'],
 })
-export class HorseOverviewComponent implements OnInit {
+export class HorseOverviewComponent {
   horses: Horse[] = [];
 
   constructor(private horseService: HorseService) {
     this.horseService.getHorses().subscribe((data) => (this.horses = data));
   }
-
-  ngOnInit(): void {}
 }

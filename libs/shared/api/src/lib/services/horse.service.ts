@@ -1,81 +1,45 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, map } from 'rxjs';
 import { Horse } from '../models/horse.interface';
-import { Character } from '../models/character.interface';
-import { User } from '../models/user.interface';
-import { Stable } from '../models/stable.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HorseService {
-  private baseUrl = 'https://api.example.com/horses'; // Mock or real API endpoint
-  private horses: Horse[];
-//   private characters: Character[];
-//   private users: User[];
-//   private stables: Stable[];
-  private nextId = 1;
+  private baseUrl = 'http://localhost:3000/api/horse';
 
-  constructor(private http: HttpClient) {
-    // this.users = [
-    //     { id: '1', name: 'John Doe', email: 'johndoe@gmail.com', role: 'Admin', password: 'password' },
-    //     { id: '2', name: 'Jane Smith', email: 'janesmith@gmail.com', role: 'User', password: 'password' },
-    //     { id: '3', name: 'Alice Johnson', email: 'alicejohnson@gmail.com', role: 'User', password: 'password' },
-    // ];
-    // this.stables = [
-    //     { id: '1', name: 'Moorland Stable', location: 'Moorland' },
-    //     { id: '2', name: 'Golden Hills Stable', location: 'Jaspers Farm' },
-    //     { id: '3', name: 'Silverglade Stable', location: 'Silverglade' },
-    // ];
-    // this.characters = [
-    //     { id: '1', name: 'John Doe', ridingSkill: 75, user: this.users[0], stable: this.stables[0] },
-    //     { id: '2', name: 'Jane Smith', ridingSkill: 85, user: this.users[1], stable: this.stables[1] },
-    // ];
-    this.horses = [
-      { _id: '1', characterId: '1', name: 'Thunder', breed: 'Arabian', age: 5 },
-      { _id: '2', characterId: '1', name: 'Shadow', breed: 'Friesian', age: 7 },
-      { _id: '3', characterId: '1', name: 'Star', breed: 'Mustang', age: 4 },
-    ];
-    this.nextId = this.horses.length + 1;
+  constructor(private http: HttpClient) {}
+
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({ 'Authorization': `Bearer ${token}` });
   }
 
   getHorses(): Observable<Horse[]> {
-    return of(this.horses);
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+  
+    return this.http.get<{ results: Horse[] }>(`${this.baseUrl}`, { headers }).pipe(
+      map(response => response.results)
+    );
   }
 
   getHorseById(id: string): Observable<Horse> {
-    const horse = this.horses.find((horse) => horse._id === id);
-    if (!horse) {
-      throw new Error(`Horse with id ${id} not found`);
-    }
-    return of(horse);
+    return this.http.get<{ results: Horse }>(`${this.baseUrl}/id/${id}`, { headers: this.getAuthHeaders() }).pipe(
+      map(response => response.results)
+    );
   }
 
-  createHorse(horse: Horse): Observable<void> {
-    const newHorse = { ...horse, id: (this.nextId++).toString() };
-    this.horses.push(newHorse);
-
-    console.log(newHorse);
-
-    return of(undefined);
+  createHorse(horse: Horse): Observable<Horse> {
+    return this.http.post<Horse>(`${this.baseUrl}`, horse, { headers: this.getAuthHeaders() });
   }
 
-  updateHorse(id: string, horse: Horse): Observable<void> {
-    const index = this.horses.findIndex((horse) => horse._id === id);
-    if (index === -1) {
-      throw new Error(`Horse with id ${id} not found`);
-    }
-    this.horses[index] = horse;
-    return of(undefined);
+  updateHorse(id: string, horse: Horse): Observable<Horse> {
+    return this.http.put<Horse>(`${this.baseUrl}/${id}`, horse, { headers: this.getAuthHeaders() });
   }
 
   deleteHorse(id: string): Observable<void> {
-    const index = this.horses.findIndex((horse) => horse._id === id);
-    if (index === -1) {
-      throw new Error(`Horse with id ${id} not found`);
-    }
-    this.horses.splice(index, 1);
-    return of(undefined);
+    return this.http.delete<void>(`${this.baseUrl}/${id}`, { headers: this.getAuthHeaders() });
   }
 }

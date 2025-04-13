@@ -10,8 +10,7 @@
   <form (ngSubmit)="onSubmit()">
     <h1>Horse Form</h1>
 
-    <!-- ID Field (hidden for now, since it's usually auto-generated or predefined) -->
-    <input type="hidden" id="id" [(ngModel)]="horse.id" name="id" />
+    <input type="hidden" id="_id" [(ngModel)]="horse._id" name="_id" />
 
     <label for="name">Name:</label>
     <input type="text" id="name" [(ngModel)]="horse.name" name="name" required />

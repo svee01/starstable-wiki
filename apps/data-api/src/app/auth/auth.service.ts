@@ -11,12 +11,16 @@ export class AuthService {
   ) {}
 
   async login(email: string, pass: string): Promise<any> {
+    console.log('Password entered:', pass);
+    console.log('Password saved in database:', pass);
     if (!email || !pass) {
       throw new BadRequestException('Email and password must be provided');
     }
   
     const userResult = await this.userService.getUserByUsername(email);
-    const user = userResult.results;
+    const user = userResult;
+
+    console.log('User found:', user);
   
     if (!user) {
       throw new BadRequestException('Invalid credentials (user not found)');

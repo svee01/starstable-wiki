@@ -10,8 +10,8 @@ import { LoginDto } from './login.dto';
 export class AuthController {
     constructor (private authService: AuthService){}
 
-    @HttpCode(HttpStatus.OK)
     @Post('login')
+    @HttpCode(HttpStatus.OK)
         async login(@Body() loginDto: LoginDto) {
         return this.authService.login(loginDto.email, loginDto.pass);
     }

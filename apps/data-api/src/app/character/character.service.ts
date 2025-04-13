@@ -15,33 +15,33 @@ export class CharacterService {
     private readonly neo4jService: Neo4jService
   ) {}
 
-  async getAll(): Promise<{ results: Character[] }> {
+  async getAll(): Promise<Character[]> {
     const characters = await this.characterModel.find()
       .populate('userId')
       .populate('stableId')
       .exec();
-    return { results: characters };
+    return characters;
   }
 
-  async getById(id: string): Promise<{ results: Character }> {
+  async getById(id: string): Promise<Character> {
     const character = await this.characterModel.findById(id)
       .populate('userId')
       .populate('stableId')
       .exec();
-    return { results: character };
+    return character;
   }
 
-  async getHorsesByCharacterId(characterId: string): Promise<{ results: Horse[] }> {
+  async getHorsesByCharacterId(characterId: string): Promise<Horse[]> {
     const horses = await this.horseModel.find({ characterId }).exec();
-    return { results: horses };
+    return horses;
   }
 
-  async getStableByCharacterId(characterId: string): Promise<{ results: string }> {
+  async getStableByCharacterId(characterId: string): Promise<any> {
     const character = await this.characterModel.findById(characterId).populate('stableId').exec();
     if (!character) {
       throw new NotFoundException('Character not found');
     }
-    return { results: character.stableId };
+    return character.stableId;
   }
 
   async create(character: Character): Promise<Character> {
@@ -80,6 +80,26 @@ export class CharacterService {
     }
 
     return createdCharacter;
+  }
+
+  async getHorsesAndStableByCharacterId(characterId: string) {
+    const result = await this.neo4jService.read(`
+      MATCH (c:Character {id: $characterId})
+      OPTIONAL MATCH (c)-[:HAS_HORSE]->(h:Horse)
+      OPTIONAL MATCH (c)-[:BELONGS_TO]->(s:Stable)
+      RETURN c, collect(h) AS horses, s
+    `, { characterId });
+  
+    if (!result.records.length) {
+      throw new NotFoundException('Character not found');
+    }
+  
+    const record = result.records[0];
+    return {
+      character: record.get('c').properties,
+      horses: record.get('horses').map((h: any) => h.properties),
+      stable: record.get('s')?.properties || null,
+    };
   }  
 
   async update(id: string, character: Character, userId: string): Promise<Character> {
