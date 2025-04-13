@@ -20,13 +20,17 @@ export class HorseController {
 
   @Post()
   @UseGuards(AuthGuard)
-  create(@Body() horse: CreateHorseDto) {
-    return this.horseService.create(horse);
+  async create(@Body() horse: CreateHorseDto, @InjectToken() token: Token) {
+    return this.horseService.create(horse, token.sub);
   }
 
   @Put(':id')
   @UseGuards(AuthGuard)
-  update(@Param('id') id: string, @Body() horse: CreateHorseDto, @InjectToken() token: Token) {
+  async update(
+    @Param('id') id: string,
+    @Body() horse: CreateHorseDto,
+    @InjectToken() token: Token
+  ) {
     return this.horseService.update(id, horse, token.sub);
   }
 

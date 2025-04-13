@@ -1,43 +1,51 @@
 import { Injectable, ForbiddenException, HttpException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import * as bcrypt from 'bcrypt';
+
 import { User, UserDocument } from './schemas/user.schema';
+import { CreateUserDto } from './schemas/user.dto';
 import { Neo4jService } from '../neo4j/neo4j.service';
 import { userCypher } from './neo4j/user.cypher';
-import * as bcrypt from 'bcrypt';
-import { Model } from 'mongoose';
-import { InjectModel } from '@nestjs/mongoose';
+
 import { Character, CharacterDocument } from '../character/schemas/character.schema';
+import { Horse, HorseDocument } from '../horse/schemas/horse.schema';
+import { Stable, StableDocument } from '../stable/schemas/stable.schema';
+import { characterCypher } from '../character/neo4j/character.cypher';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel(User.name) private userModel: Model<UserDocument>,
     @InjectModel(Character.name) private characterModel: Model<CharacterDocument>,
+    @InjectModel(Horse.name) private horseModel: Model<HorseDocument>,
+    @InjectModel(Stable.name) private stableModel: Model<StableDocument>,
     private readonly neo4jService: Neo4jService,
   ) {}
 
   async getAll(): Promise<User[]> {
-    const users = await this.userModel.find().exec();
-    return users;
+    return this.userModel.find().exec();
   }
 
   async getUserById(id: string): Promise<User> {
-    const user = await this.userModel.findById(id).exec();
-    return user;
+    return this.userModel.findById(id).exec();
   }
 
   async getUserByUsername(email: string): Promise<User> {
-    const user = await this.userModel.findOne({ email }).exec();
-    return user;
+    return this.userModel.findOne({ email }).exec();
   }
 
-  async addUser(user: User): Promise<User> {
+  async addUser(userData: CreateUserDto): Promise<User> {
     try {
-      user.password = await bcrypt.hash(user.password, 10);
+      const hashedPassword = await bcrypt.hash(userData.password, 10);
 
-      const createdUser = await new this.userModel(user).save();
+      const createdUser = await new this.userModel({
+        ...userData,
+        password: hashedPassword,
+      }).save();
 
       await this.neo4jService.write(userCypher.addUser, {
-        id: createdUser.id || createdUser._id.toString(),
+        id: createdUser._id.toString(),
         name: createdUser.name,
         email: createdUser.email,
         password: createdUser.password,
@@ -46,7 +54,7 @@ export class UserService {
 
       return createdUser;
     } catch (error) {
-      console.log('Error creating user: ', error);
+      console.error('Error creating user:', error);
       if (error.code === 11000 && error.keyPattern?.email) {
         throw new HttpException('Email is already taken', 400);
       }
@@ -55,8 +63,7 @@ export class UserService {
   }
 
   async getCharacterByUserId(userId: string): Promise<Character> {
-    const character = await this.characterModel.findOne({ userId }).populate('stableId').exec();
-    return character;
+    return this.characterModel.findOne({ userId }).populate('stableId').exec();
   }
 
   async updateUser(updatedUser: User, tokenUserId: string): Promise<User> {
@@ -69,7 +76,7 @@ export class UserService {
       .exec();
 
     await this.neo4jService.write(userCypher.updateUser, {
-      id: updatedUser._id,
+      id: updatedUser._id.toString(),
       name: updatedUser.name,
       email: updatedUser.email,
       password: updatedUser.password,
@@ -84,10 +91,30 @@ export class UserService {
       throw new ForbiddenException('You are not authorized to delete this user');
     }
 
+    const character = await this.characterModel.findOne({ userId }).exec();
+
+    if (character) {
+      await this.horseModel.deleteMany({ characterId: character._id }).exec();
+      await this.stableModel.deleteMany({ characterId: character._id }).exec();
+      await this.characterModel.findByIdAndDelete(character._id).exec();
+
+      await this.neo4jService.write(`
+        MATCH (h:Horse {characterId: $characterId})
+        DETACH DELETE h
+      `, { characterId: character._id.toString() });
+
+      await this.neo4jService.write(`
+        MATCH (s:Stable {characterId: $characterId})
+        DETACH DELETE s
+      `, { characterId: character._id.toString() });
+
+      await this.neo4jService.write(characterCypher.removeCharacter, { id: character._id.toString() });
+    }
+
     await this.userModel.findByIdAndDelete(userId).exec();
 
     await this.neo4jService.write(userCypher.removeUser, { id: userId });
 
-    return { message: 'User deleted' };
+    return { message: 'User and all related data deleted' };
   }
 }

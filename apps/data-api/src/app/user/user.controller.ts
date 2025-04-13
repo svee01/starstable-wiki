@@ -8,7 +8,7 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
-import { User } from './schemas/user.schema';
+import { CreateUserDto as User } from './schemas/user.dto';
 import { UserService } from './user.service';
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
 import { AuthGuard } from '../auth/jwt-auth.guard';

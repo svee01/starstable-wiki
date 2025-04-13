@@ -7,7 +7,7 @@ export type UserDocument = User & Document;
 @Schema()
 export class User {
   @IsMongoId()
-  _id: string;
+  _id?: string;
 
   @Prop({ required: true })
   name: string;

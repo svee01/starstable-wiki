@@ -20,8 +20,8 @@ export class CharacterController {
 
   @Post()
   @UseGuards(AuthGuard)
-  create(@Body() character: CreateCharacterDto) {
-    return this.characterService.create(character);
+  create(@Body() character: CreateCharacterDto, @InjectToken() token: Token) {
+    return this.characterService.create(character, token.sub);
   }
 
   @Get(':id/details')

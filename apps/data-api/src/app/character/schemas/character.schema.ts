@@ -1,9 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
-import { Stable } from '../../stable/schemas/stable.schema';
 import { IsMongoId } from 'class-validator';
-import { Horse } from '../../horse/schemas/horse.schema';
-import { User } from '../../user/schemas/user.schema';
 
 export type CharacterDocument = Character & Document;
 
@@ -22,7 +19,7 @@ export class Character {
   userId: string;
 
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Stable' })
-  stableId: string;
+  stableId?: string;
 
   horses?: string[];
 }

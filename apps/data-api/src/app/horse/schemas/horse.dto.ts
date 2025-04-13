@@ -11,7 +11,4 @@ export class CreateHorseDto {
 
   @IsNumber()
   age: number;
-
-  @IsMongoId()
-  characterId: string;
 }
