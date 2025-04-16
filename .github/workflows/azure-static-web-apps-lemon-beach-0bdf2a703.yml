@@ -20,11 +20,12 @@ jobs:
         with:
           node-version: '20.x'
 
-      - name: Install dependencies and Nx CLI
+      - name: Clean install to fix Rollup issue
         run: |
-          npm ci
-          npm install -g nx
-          nx reset
+          rm -rf node_modules package-lock.json
+          npm install --ignore-scripts
+          npm rebuild
+          npm install --save-dev @nrwl/cli
 
       - name: Build frontend and backend
         run: |
