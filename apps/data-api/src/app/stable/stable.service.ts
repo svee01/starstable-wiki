@@ -25,6 +25,21 @@ export class StableService {
     return stable;
   }
 
+  async getStablesByCharacterId(characterId: string, userId: string): Promise<Stable[]> {
+    const character = await this.characterModel.findById(characterId).exec();
+  
+    if (!character) {
+      throw new NotFoundException('Character not found');
+    }
+  
+    if (character.userId.toString() !== userId) {
+      throw new ForbiddenException('You are not authorized to access this character’s stables');
+    }
+  
+    const stables = await this.stableModel.find({ characterId }).exec();
+    return stables;
+  }
+
   async create(stable: CreateStableDto, userId: string): Promise<Stable> {
     const character = await this.characterModel.findOne({ userId });
   

@@ -18,6 +18,15 @@ export class HorseController {
     return this.horseService.getById(id);
   }
 
+  @UseGuards(AuthGuard)
+  @Get('character/:characterId')
+  getHorsesFromCharacter(
+    @Param('characterId') characterId: string,
+    @InjectToken() token: Token
+  ) {
+    return this.horseService.getHorsesFromCharacter(characterId, token.sub);
+  }
+
   @Post()
   @UseGuards(AuthGuard)
   async create(@Body() horse: CreateHorseDto, @InjectToken() token: Token) {

@@ -18,6 +18,12 @@ export class StableController {
     return this.stableService.getById(id);
   }
 
+  @Get('character/:id')
+  @UseGuards(AuthGuard)
+  getByCharacterId(@Param('id') characterId: string, @InjectToken() token: Token) {
+    return this.stableService.getStablesByCharacterId(characterId, token.sub);
+  }
+
   @Post()
   @UseGuards(AuthGuard)
   create(@Body() stable: CreateStableDto, @InjectToken() token: Token) {

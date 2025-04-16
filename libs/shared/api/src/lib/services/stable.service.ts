@@ -29,6 +29,12 @@ export class StableService {
     );
   }
 
+  getStablesByCharacterId(characterId: string): Observable<Stable[]> {
+    return this.http.get<{ results: Stable[] }>(`${this.baseUrl}/character/${characterId}`, { headers: this.getAuthHeaders() }).pipe(
+      map(response => response.results)
+    );
+  }
+
   createStable(stable: CreateStableDto): Observable<Stable> {
     return this.http.post<Stable>(`${this.baseUrl}`, stable, { headers: this.getAuthHeaders() });
   }

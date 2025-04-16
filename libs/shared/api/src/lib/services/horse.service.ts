@@ -23,6 +23,14 @@ export class HorseService {
     );
   }
 
+  getHorsesByCharacterId(characterId: string): Observable<Horse[]> {
+    return this.http
+      .get<{ results: Horse[] }>(`${this.baseUrl}/character/${characterId}`, {
+        headers: this.getAuthHeaders(),
+      })
+      .pipe(map(response => response.results));
+  }  
+
   getHorseById(id: string): Observable<Horse> {
     return this.http.get<{ results: Horse }>(`${this.baseUrl}/${id}`, { headers: this.getAuthHeaders() }).pipe(
       map(response => response.results)

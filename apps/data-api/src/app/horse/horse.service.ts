@@ -1,4 +1,4 @@
-import { Injectable, ForbiddenException, BadRequestException } from '@nestjs/common';
+import { Injectable, ForbiddenException, BadRequestException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Horse, HorseDocument } from './schemas/horse.schema';
 import { Model } from 'mongoose';
@@ -47,6 +47,20 @@ export class HorseService {
   
     return createdHorse;
   }
+
+  async getHorsesFromCharacter(characterId: string, userId: string): Promise<Horse[]> {
+    const character = await this.characterModel.findById(characterId).exec();
+  
+    if (!character) {
+      throw new NotFoundException('Character not found');
+    }
+  
+    if (character.userId.toString() !== userId) {
+      throw new ForbiddenException('You are not allowed to access these horses');
+    }
+  
+    return this.horseModel.find({ characterId }).exec();
+  }  
   
   async update(id: string, horse: CreateHorseDto, userId: string): Promise<Horse> {
     const character = await this.characterModel.findOne({ userId });
