@@ -53,4 +53,9 @@ export class CharacterController {
   delete(@Param('id') id: string, @InjectToken() token: Token) {
     return this.characterService.delete(id, token.sub);
   }
+
+  @Get('user/:userId')
+  getCharacterByUserId(@Param('userId') userId: string) {
+    return this.characterService.getCharacterByUserId(userId);
+  }
 }

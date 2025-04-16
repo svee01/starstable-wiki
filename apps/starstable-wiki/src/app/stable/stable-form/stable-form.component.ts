@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
-import { StableService, Stable } from '@starstable-wiki/shared/api';
-import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CreateStableDto, Stable, StableService } from '@starstable-wiki/shared/api';
 
 @Component({
   selector: 'app-stable-form',
@@ -29,14 +29,19 @@ export class StableFormComponent implements OnInit {
   }
 
   onSubmit(): void {
+    const stableDto: CreateStableDto = {
+      name: this.stable.name,
+      location: this.stable.location,
+    };
+
     if (this.stable._id) {
-      this.stableService.updateStable(this.stable).subscribe(() => {
+      this.stableService.updateStable(this.stable._id, stableDto).subscribe(() => {
         this.router.navigate(['/stables']);
       });
     } else {
-      this.stableService.createStable(this.stable).subscribe(() => {
+      this.stableService.createStable(stableDto).subscribe(() => {
         this.router.navigate(['/stables']);
       });
     }
-  }  
+  }
 }

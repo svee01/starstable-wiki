@@ -21,14 +21,22 @@ export class CharacterDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     const characterId = this.route.snapshot.paramMap.get('id');
+    console.log('Character ID from route:', characterId);
     if (characterId) {
       this.characterService.getCharacterById(characterId).subscribe((data) => {
         this.character = data;
+        console.log('Loaded character:', this.character);
       });
     } else {
       console.error('Character ID is missing');
     }
   }
+
+  getDisplayName(entity: any): string {
+    return typeof entity === 'object' && entity !== null && 'name' in entity
+      ? entity.name
+      : entity;
+  }  
 
   onDelete(characterId: string): void {
     if (this.character && this.character._id) {

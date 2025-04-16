@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { User } from '../models/user.interface';
-import { Character } from '../models/character.interface'; // 👈 make sure this exists
+import { Character } from '../models/character.interface';
+import { CreateUserDto } from '../models/create-user.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +30,7 @@ export class UserService {
   }
 
   getUserById(id: string): Observable<User> {
-    return this.http.get<{ results: User }>(`${this.baseUrl}/id/${id}`, { headers: this.getAuthHeaders() })
+    return this.http.get<{ results: User }>(`${this.baseUrl}/${id}`, { headers: this.getAuthHeaders() })
       .pipe(map(response => response.results));
   }
 
@@ -42,9 +43,11 @@ export class UserService {
     return this.http.post<User>(`${this.baseUrl}`, user, { headers: this.getAuthHeaders() });
   }
 
-  updateUser(user: User): Observable<User> {
-    return this.http.put<User>(`${this.baseUrl}`, user, { headers: this.getAuthHeaders() });
-  }
+  updateUser(userDto: CreateUserDto): Observable<User> {
+    return this.http.put<User>(`${this.baseUrl}`, userDto, {
+      headers: this.getAuthHeaders(),
+    });
+  }  
 
   deleteUser(id: string): Observable<void> {
     const token = localStorage.getItem('token');

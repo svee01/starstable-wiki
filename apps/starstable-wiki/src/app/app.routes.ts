@@ -21,6 +21,7 @@ export const appRoutes: Route[] = [
   { path: '', component: HomeComponent },
   { path: 'about', component: AboutPageComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'register', component: LoginComponent },
 
   { path: 'users', component: UserOverviewComponent, canActivate: [AuthGuard] },
   { path: 'users/:id', component: UserDetailsComponent, canActivate: [AuthGuard] },

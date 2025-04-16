@@ -26,6 +26,14 @@ export class CharacterService {
       .exec();
   }
 
+  async getCharacterByUserId(userId: string): Promise<Character> {
+    const character = await this.characterModel.findOne({ userId }).populate('userId').populate('stableId').exec();
+    if (!character) {
+      throw new NotFoundException('Character not found for this user');
+    }
+    return character;
+  }  
+
   async getById(id: string): Promise<Character> {
     return this.characterModel.findById(id)
       .populate('userId')
@@ -97,7 +105,7 @@ export class CharacterService {
     });
   
     return createdCharacter;
-  }  
+  }
 
   async getHorsesAndStableByCharacterId(characterId: string) {
     const result = await this.neo4jService.read(`
@@ -129,12 +137,14 @@ export class CharacterService {
     const updatedCharacter = await this.characterModel.findByIdAndUpdate(id, {
       name: dto.name,
       ridingSkill: dto.ridingSkill,
+      stableId: dto.stableId,
     }, { new: true }).exec();
 
     await this.neo4jService.write(characterCypher.updateCharacter, {
       id: updatedCharacter._id.toString(),
       name: updatedCharacter.name,
       ridingSkill: updatedCharacter.ridingSkill,
+      stableId: updatedCharacter.stableId.toString(),
     });
 
     return updatedCharacter;

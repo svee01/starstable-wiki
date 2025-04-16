@@ -7,4 +7,7 @@ export class CreateCharacterDto {
 
   @IsNumber()
   ridingSkill: number;
+
+  @IsString()
+  stableId?: string;
 }

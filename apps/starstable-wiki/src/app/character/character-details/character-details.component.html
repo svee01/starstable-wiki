@@ -13,12 +13,12 @@
       </p>
 
       <p class="card-text">
-        <strong>User ID:</strong> {{ character.userId }}
+        <strong>User:</strong> {{ getDisplayName(character.userId) }}
       </p>
-
+      
       <p class="card-text">
-        <strong>Stable ID:</strong> {{ character.stableId }}
-      </p>
+        <strong>Stable:</strong> {{ getDisplayName(character.stableId) }}
+      </p>      
 
       <div class="mt-3">
         <button class="rounded-pink-btn edit me-2" [routerLink]="['/character-form', character._id]">

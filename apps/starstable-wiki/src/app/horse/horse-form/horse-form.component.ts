@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HorseService, Horse } from '@starstable-wiki/shared/api';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { CreateHorseDto } from '@starstable-wiki/shared/api';
 
 @Component({
   selector: 'app-horse-form',
@@ -29,12 +30,18 @@ export class HorseFormComponent implements OnInit {
   }
 
   onSubmit(): void {
+    const horseDto: CreateHorseDto = {
+      name: this.horse.name,
+      breed: this.horse.breed,
+      age: this.horse.age,
+    };
+  
     if (this.horse._id) {
-      this.horseService.updateHorse(this.horse._id, this.horse).subscribe(() => {
+      this.horseService.updateHorse(this.horse._id, horseDto).subscribe(() => {
         this.router.navigate(['/horses']);
       });
     } else {
-      this.horseService.createHorse(this.horse).subscribe(() => {
+      this.horseService.createHorse(horseDto).subscribe(() => {
         this.router.navigate(['/horses']);
       });
     }

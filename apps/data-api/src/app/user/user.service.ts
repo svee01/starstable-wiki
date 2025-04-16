@@ -1,4 +1,4 @@
-import { Injectable, ForbiddenException, HttpException } from '@nestjs/common';
+import { Injectable, ForbiddenException, HttpException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
@@ -66,25 +66,25 @@ export class UserService {
     return this.characterModel.findOne({ userId }).populate('stableId').exec();
   }
 
-  async updateUser(updatedUser: User, tokenUserId: string): Promise<User> {
-    if (updatedUser._id !== tokenUserId) {
-      throw new ForbiddenException('You are not authorized to update this user');
-    }
-
+  async updateUser(updatedUser: CreateUserDto, tokenUserId: string): Promise<User> {
     const user = await this.userModel
-      .findByIdAndUpdate(updatedUser._id, updatedUser, { new: true })
+      .findByIdAndUpdate(tokenUserId, updatedUser, { new: true })
       .exec();
-
+  
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+  
     await this.neo4jService.write(userCypher.updateUser, {
-      id: updatedUser._id.toString(),
-      name: updatedUser.name,
-      email: updatedUser.email,
-      password: updatedUser.password,
-      role: updatedUser.role,
+      id: user._id.toString(),
+      name: user.name,
+      email: user.email,
+      password: user.password,
+      role: user.role,
     });
-
+  
     return user;
-  }
+  }  
 
   async deleteUser(userId: string, tokenUserId: string): Promise<{ message: string }> {
     if (userId !== tokenUserId) {

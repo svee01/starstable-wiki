@@ -14,13 +14,13 @@
 
     <input type="hidden" [(ngModel)]="character.userId" name="userId" />
 
-    <div class="form-group">
+    <div class="form-group" *ngIf="character._id">
       <label for="stableId">Stable</label>
-      <select id="stableId" [(ngModel)]="character.stableId" name="stableId" required>
+      <select id="stableId" [(ngModel)]="character.stableId" name="stableId" required class="form-control">
         <option *ngFor="let stable of stables" [value]="stable._id">
           {{ stable.name }} - {{ stable.location }}
         </option>
-      </select>      
+      </select>
     </div>
 
     <button type="submit" class="btn btn-primary">

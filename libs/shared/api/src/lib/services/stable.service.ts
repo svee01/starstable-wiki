@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
+import { CreateStableDto } from '../models/create-stable.dto';
 import { Stable } from '../models/stable.interface';
 
 @Injectable({
@@ -23,17 +24,17 @@ export class StableService {
   }
 
   getStableById(id: string): Observable<Stable> {
-    return this.http.get<{ results: Stable }>(`${this.baseUrl}/id/${id}`, { headers: this.getAuthHeaders() }).pipe(
+    return this.http.get<{ results: Stable }>(`${this.baseUrl}/${id}`, { headers: this.getAuthHeaders() }).pipe(
       map(response => response.results)
     );
   }
 
-  createStable(stable: Stable): Observable<Stable> {
+  createStable(stable: CreateStableDto): Observable<Stable> {
     return this.http.post<Stable>(`${this.baseUrl}`, stable, { headers: this.getAuthHeaders() });
   }
 
-  updateStable(stable: Stable): Observable<Stable> {
-    return this.http.put<Stable>(`${this.baseUrl}/${stable._id}`, stable, { headers: this.getAuthHeaders() });
+  updateStable(id: string, stable: CreateStableDto): Observable<Stable> {
+    return this.http.put<Stable>(`${this.baseUrl}/${id}`, stable, { headers: this.getAuthHeaders() });
   }
 
   deleteStable(id: string): Observable<void> {

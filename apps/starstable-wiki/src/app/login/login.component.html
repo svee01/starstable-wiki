@@ -1,46 +1,80 @@
-<div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <div class="card shadow-sm border-0">
-          <div class="card-body">
-            <h1 class="text-center mb-4">Login</h1>
+<div class="container d-flex justify-content-center align-items-center mt-5">
+    <div class="w-100" style="max-width: 500px;">
+      <form (ngSubmit)="isRegisterMode ? onRegister() : onSubmit()" class="p-4 rounded shadow-sm bg-white border">
   
-            <form (ngSubmit)="onSubmit()">
-              <div class="form-group mb-3">
-                <label for="email">Email</label>
-                <input
-                  id="email"
-                  type="email"
-                  [(ngModel)]="email"
-                  name="email"
-                  required
-                  class="form-control"
-                />
-              </div>
+        <h2 class="text-center mb-4">
+          {{ isRegisterMode ? 'Create Account' : 'Login to Your Account' }}
+        </h2>
   
-              <div class="form-group mb-3">
-                <label for="password">Password</label>
-                <input
-                  id="password"
-                  type="password"
-                  [(ngModel)]="password"
-                  name="password"
-                  required
-                  class="form-control"
-                />
-              </div>
-  
-              <div *ngIf="errorMessage" class="alert alert-danger">
-                {{ errorMessage }}
-              </div>
-  
-              <div class="text-center">
-                <button type="submit" class="btn btn-primary w-100">Login</button>
-              </div>
-            </form>
-          </div>
+        <div *ngIf="isRegisterMode" class="mb-3">
+          <label for="name" class="form-label">Full Name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            [(ngModel)]="name"
+            class="form-control"
+            placeholder="e.g. Jane Doe"
+            required
+          />
         </div>
-      </div>
+  
+        <div class="mb-3">
+          <label for="email" class="form-label">Email address</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            [(ngModel)]="email"
+            class="form-control"
+            placeholder="you@example.com"
+            required
+          />
+        </div>
+  
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            [(ngModel)]="password"
+            class="form-control"
+            placeholder="Enter a secure password"
+            required
+          />
+        </div>
+  
+        <div *ngIf="isRegisterMode" class="mb-4">
+          <label for="role" class="form-label">Select Role</label>
+          <select
+            id="role"
+            name="role"
+            [(ngModel)]="role"
+            class="form-select"
+            required
+          >
+            <option value="User">User</option>
+            <option value="Admin">Admin</option>
+          </select>
+        </div>
+  
+        <div *ngIf="errorMessage" class="alert alert-danger text-center">
+          {{ errorMessage }}
+        </div>
+  
+        <div class="d-grid">
+          <button type="submit" class="btn btn-primary">
+            {{ isRegisterMode ? 'Register' : 'Login' }}
+          </button>
+        </div>
+
+        <div class="text-center mt-3">
+            <button type="button" class="btn btn-link text-decoration-none" (click)="toggleMode()">
+              {{ isRegisterMode ? 'Already have an account? Login' : 'Don’t have an account? Register' }}
+            </button>
+        </div>
+      </form>
     </div>
   </div>
   

@@ -21,6 +21,9 @@
           <li class="nav-item">
             <a class="nav-link" routerLink="/">Home</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/characters">My Character</a>
+          </li>
   
           <!-- Alleen tonen als ingelogd EN character bestaat -->
           <ng-container *ngIf="isLoggedIn() && hasCharacter">
@@ -29,9 +32,6 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" routerLink="/horses">Horses</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/characters">Characters</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" routerLink="/stables">Stables</a>

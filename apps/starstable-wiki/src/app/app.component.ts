@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { CharacterService } from '@starstable-wiki/shared/api';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,7 @@ export class AppComponent {
   title = 'starstable-wiki';
   hasCharacter = false;
 
-  constructor(private http: HttpClient) {
+  constructor(private characterService: CharacterService) {
     this.checkCharacter();
   }
 
@@ -31,17 +32,24 @@ export class AppComponent {
   checkCharacter() {
     const token = localStorage.getItem('token');
     if (token) {
-      this.http.get('http://localhost:3000/api/user/character', {
-        headers: { Authorization: `Bearer ${token}` }
-      }).subscribe({
-        next: (response: any) => {
-          this.hasCharacter = !!response?.results; // als results bestaat -> true
-        },
-        error: (err) => {
-          console.error('Failed to check character', err);
-          this.hasCharacter = false;
-        }
-      });
+      const decoded: any = jwtDecode(token);
+      const userId = decoded.sub;
+
+      if (userId) {
+        this.characterService.getCharacterByUserId(userId).subscribe({
+          next: (character) => {
+            this.hasCharacter = !!character;
+          },
+          error: (err) => {
+            console.error('Failed to load character', err);
+            this.hasCharacter = false;
+          }
+        });
+      } else {
+        this.hasCharacter = false;
+      }
+    } else {
+      this.hasCharacter = false;
     }
   }
 }

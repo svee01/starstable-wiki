@@ -8,7 +8,7 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
-import { CreateUserDto as User } from './schemas/user.dto';
+import { CreateUserDto, CreateUserDto as User } from './schemas/user.dto';
 import { UserService } from './user.service';
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
 import { AuthGuard } from '../auth/jwt-auth.guard';
@@ -53,8 +53,8 @@ export class UserController {
   @Put()
   @UseGuards(AuthGuard)
   @ApiResponse({ status: 200, description: 'User updated successfully' })
-  updateUser(@Body() user: User, @InjectToken() token: Token) {
-    return this.userService.updateUser(user, token.sub);
+  update(@Body() userDto: CreateUserDto, @InjectToken() token: Token) {
+    return this.userService.updateUser(userDto, token.sub);
   }
 
   @Delete(':id')

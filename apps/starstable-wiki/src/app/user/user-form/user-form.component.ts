@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { UserService, User } from '@starstable-wiki/shared/api';
+import { CreateUserDto } from '@starstable-wiki/shared/api';
 
 @Component({
   selector: 'app-user-form',
@@ -14,6 +15,7 @@ import { UserService, User } from '@starstable-wiki/shared/api';
 })
 export class UserFormComponent implements OnInit {
   user: User = { _id: '', name: '', email: '', role: '', password: '' };
+  dtoUser: CreateUserDto = { name: '', email: '', role: '', password: '' };
 
   constructor(
     private userService: UserService,
@@ -29,13 +31,19 @@ export class UserFormComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.dtoUser.email = this.user.email;
+    this.dtoUser.name = this.user.name;
+    this.dtoUser.role = this.user.role;
+    this.dtoUser.password = this.user.password;
+    
+    console.log('Form submitted:', this.user);
+    console.log('DTO User:', this.dtoUser);
+
     if (this.user._id) {
-      // UPDATE
-      this.userService.updateUser(this.user).subscribe(() => {
+      this.userService.updateUser(this.dtoUser).subscribe(() => {
         this.router.navigate(['/users']);
       });
     } else {
-      // CREATE
       this.userService.addUser(this.user).subscribe(() => {
         this.router.navigate(['/users']);
       });

@@ -5,6 +5,7 @@ import { CharacterService, Character, StableService, Stable } from '@starstable-
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
+import { CreateCharacterDto } from '@starstable-wiki/shared/api';
 
 @Component({
   selector: 'app-character-form',
@@ -32,7 +33,8 @@ export class CharacterFormComponent implements OnInit {
     const token = localStorage.getItem('token');
     if (token) {
       const decoded: any = jwtDecode(token);
-      this.character.userId = decoded.userId;
+      this.character.userId = decoded.sub;
+      console.log('User ID from token:', this.character.userId);
     }
 
     const id = this.route.snapshot.paramMap.get('id');
@@ -44,12 +46,20 @@ export class CharacterFormComponent implements OnInit {
   }
 
   onSubmit(): void {
+    const characterDto: CreateCharacterDto = {
+      name: this.character.name,
+      ridingSkill: this.character.ridingSkill,
+      stableId: this.character.stableId,
+    };
+  
     if (this.character._id) {
-      this.characterService.updateCharacter(this.character._id, this.character).subscribe(() => {
+      console.log('Updating character:', characterDto);
+      this.characterService.updateCharacter(this.character._id, characterDto).subscribe(() => {
         this.router.navigate(['/characters']);
       });
     } else {
-      this.characterService.createCharacter(this.character).subscribe(() => {
+      console.log('Creating character:', characterDto);
+      this.characterService.createCharacter(characterDto).subscribe(() => {
         this.router.navigate(['/characters']);
       });
     }

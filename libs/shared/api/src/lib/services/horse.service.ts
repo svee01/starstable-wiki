@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { Horse } from '../models/horse.interface';
+import { CreateHorseDto } from '../models/create-horse.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -17,25 +18,22 @@ export class HorseService {
   }
 
   getHorses(): Observable<Horse[]> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
-  
-    return this.http.get<{ results: Horse[] }>(`${this.baseUrl}`, { headers }).pipe(
+    return this.http.get<{ results: Horse[] }>(`${this.baseUrl}`, { headers: this.getAuthHeaders() }).pipe(
       map(response => response.results)
     );
   }
 
   getHorseById(id: string): Observable<Horse> {
-    return this.http.get<{ results: Horse }>(`${this.baseUrl}/id/${id}`, { headers: this.getAuthHeaders() }).pipe(
+    return this.http.get<{ results: Horse }>(`${this.baseUrl}/${id}`, { headers: this.getAuthHeaders() }).pipe(
       map(response => response.results)
     );
   }
 
-  createHorse(horse: Horse): Observable<Horse> {
+  createHorse(horse: CreateHorseDto): Observable<Horse> {
     return this.http.post<Horse>(`${this.baseUrl}`, horse, { headers: this.getAuthHeaders() });
   }
 
-  updateHorse(id: string, horse: Horse): Observable<Horse> {
+  updateHorse(id: string, horse: CreateHorseDto): Observable<Horse> {
     return this.http.put<Horse>(`${this.baseUrl}/${id}`, horse, { headers: this.getAuthHeaders() });
   }
 

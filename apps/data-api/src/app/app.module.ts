@@ -15,7 +15,7 @@ import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    MongooseModule.forRoot(process.env.MONGO_CONN || "mongodb://localhost:27017/clientside"),
+    MongooseModule.forRoot(process.env.MONGO_CONN),
     Neo4jModule.forRootAsync({
       scheme: process.env.NEO4J_SCHEME as Neo4jScheme,
       host: process.env.NEO4J_HOST,

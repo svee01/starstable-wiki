@@ -16,8 +16,22 @@ export class CharacterOverviewComponent implements OnInit {
   constructor(private characterService: CharacterService) {}
 
   ngOnInit(): void {
-    this.characterService.getCharacters().subscribe((data) => {
-      this.characters = data;
-    });
+    const token = localStorage.getItem('token');
+    const userId = token ? JSON.parse(atob(token.split('.')[1])).sub : null;
+
+    if (userId) {
+      this.characterService.getCharacterByUserId(userId).subscribe((data) => {
+        console.log('Loaded character:', data);
+
+        this.characters = [data];
+      });
+    }
   }
+
+  getName(entity: any): string {
+    if (entity && typeof entity === 'object' && 'name' in entity) {
+      return entity.name;
+    }
+    return entity?.toString() || '';
+  }  
 }

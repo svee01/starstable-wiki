@@ -1,20 +1,20 @@
 <div class="container mt-5">
-  <h2 class="h4">Character Overview</h2>
+  <h2 class="h4">My Character</h2>
 
-  <div class="mb-3">
+  <div class="mb-3" *ngIf="characters.length === 0">
     <a class="btn btn-primary" [routerLink]="['/character-form']">
       <i class="fa fa-plus"></i> Add Character
     </a>
   </div>
 
-  <table class="table table-striped table-hover">
+  <table class="table table-striped table-hover" *ngIf="characters.length > 0">
     <thead class="thead-light">
       <tr>
         <th>ID</th>
         <th>Name</th>
         <th>Riding Skill</th>
-        <th>User ID</th>
-        <th>Stable ID</th>
+        <th>User</th>
+        <th>Stable</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -23,12 +23,16 @@
         <td>{{ character._id }}</td>
         <td>{{ character.name }}</td>
         <td>{{ character.ridingSkill }}</td>
-        <td>{{ character.userId }}</td>
-        <td>{{ character.stableId }}</td>
+        <td>{{ getName(character.userId) }}</td>
+        <td>{{ getName(character.stableId) }}</td>
         <td>
           <a class="btn btn-primary" [routerLink]="['/characters', character._id]">View Details</a>
         </td>
       </tr>
     </tbody>
   </table>
+
+  <div *ngIf="characters.length === 0" class="alert alert-info">
+    No character found. Please create one!
+  </div>
 </div>

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { Character } from '../models/character.interface';
+import { CreateCharacterDto } from '../models/create-character.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,15 @@ export class CharacterService {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
   
-    return this.http.get<{ results: Character[] }>(`${this.baseUrl}`, { headers }).pipe(
+    return this.http.get<Character[]>(`${this.baseUrl}`, { headers });
+  }
+
+  getCharacterByUserId(userId: string): Observable<Character> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+  
+    // HOW TO FIX RESULTS WRAP:
+    return this.http.get<{ results: Character }>(`${this.baseUrl}/user/${userId}`, { headers }).pipe(
       map(response => response.results)
     );
   }
@@ -24,19 +33,19 @@ export class CharacterService {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
 
-    return this.http.get<{ results: Character }>(`${this.baseUrl}/id/${id}`, { headers }).pipe(
+    return this.http.get<{ results: Character }>(`${this.baseUrl}/${id}`, { headers }).pipe(
       map(response => response.results)
-    );
+    );    
   }
 
-  createCharacter(character: Character): Observable<Character> {
+  createCharacter(character: CreateCharacterDto): Observable<Character> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
-
+  
     return this.http.post<Character>(`${this.baseUrl}`, character, { headers });
   }
 
-  updateCharacter(id: string, character: Character): Observable<Character> {
+  updateCharacter(id: string, character: CreateCharacterDto): Observable<Character> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
 
