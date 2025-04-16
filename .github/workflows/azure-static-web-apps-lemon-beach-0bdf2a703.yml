@@ -21,9 +21,12 @@ jobs:
       - name: Install dependencies and Nx CLI
         run: |
           npm ci
-          npm install --save-dev @nrwl/cli
+          npm install -g nx
 
-      - name: Build frontend and backend
+      - name: Build frontend and backend (with NX daemon disabled)
+        env:
+          NX_DAEMON: false
+          NX_BRANCH: main
         run: |
           npx nx build starstable-wiki --configuration=production
           npx nx build data-api
