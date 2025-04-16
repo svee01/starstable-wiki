@@ -27,9 +27,6 @@ jobs:
                   npx nx run starstable-wiki:build:production
                   npx nx run data-api:build
 
-            - name: Reset Nx Cache
-              run: npx nx reset
-
             - name: Zip artifacts for deployment
               run: |
                   echo ${GITHUB_WORKSPACE}
