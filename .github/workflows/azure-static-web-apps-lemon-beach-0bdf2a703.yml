@@ -28,8 +28,8 @@ jobs:
 
       - name: Build frontend and backend
         run: |
-          nx build starstable-wiki --configuration=production
-          nx build data-api
+          nx build starstable-wiki --configuration=production --verbose
+          nx build data-api --verbose
 
       - name: Zip artifacts for deployment
         run: |
