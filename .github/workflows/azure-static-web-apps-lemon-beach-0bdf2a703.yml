@@ -24,7 +24,7 @@ jobs:
             - name: npm install, build, and test
               run: |
                   npm ci
-                  nx reset
+                  npx reset
                   npx nx run starstable-wiki:build:production
                   npx nx run data-api:build
 
