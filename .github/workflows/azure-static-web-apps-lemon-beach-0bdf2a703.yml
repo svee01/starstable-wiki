@@ -22,14 +22,12 @@ jobs:
         run: |
           npm ci
           npm install -g nx
+          nx reset
 
-      - name: Build frontend and backend (with NX daemon disabled)
-        env:
-          NX_DAEMON: false
-          NX_BRANCH: main
+      - name: Build frontend and backend
         run: |
-          npx nx build starstable-wiki --configuration=production
-          npx nx build data-api
+          nx build starstable-wiki --configuration=production
+          nx build data-api
 
       - name: Zip artifacts for deployment
         run: |
