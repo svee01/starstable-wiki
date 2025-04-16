@@ -9,6 +9,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      NX_DAEMON: 'false'
     name: Build and zip apps from /dist
     steps:
       - uses: actions/checkout@v4
