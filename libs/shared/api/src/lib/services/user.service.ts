@@ -9,7 +9,7 @@ import { CreateUserDto } from '../models/create-user.dto';
   providedIn: 'root',
 })
 export class UserService {
-  private baseUrl = 'http://localhost:3000/api/user';
+  private baseUrl = 'https://starstable-api-cbg0c6cmhvghgpdv.westeurope-01.azurewebsites.net/api/user';
 
   constructor(private http: HttpClient) {}
 

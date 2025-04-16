@@ -8,7 +8,7 @@ import { Stable } from '../models/stable.interface';
   providedIn: 'root',
 })
 export class StableService {
-  private baseUrl = 'http://localhost:3000/api/stable';
+  private baseUrl = 'https://starstable-api-cbg0c6cmhvghgpdv.westeurope-01.azurewebsites.net/api/stable';
 
   constructor(private http: HttpClient) {}
 

@@ -8,7 +8,7 @@ import { CreateCharacterDto } from '../models/create-character.dto';
   providedIn: 'root',
 })
 export class CharacterService {
-  private baseUrl = 'http://localhost:3000/api/character';
+  private baseUrl = 'https://starstable-api-cbg0c6cmhvghgpdv.westeurope-01.azurewebsites.net/api/character';
 
   constructor(private http: HttpClient) {}
 

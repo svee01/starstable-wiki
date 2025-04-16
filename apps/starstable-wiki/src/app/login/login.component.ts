@@ -24,7 +24,7 @@ export class LoginComponent {
   onSubmit() {
     console.log('Email:', this.email);
     console.log('Password:', this.password);
-    this.http.post<any>('http://localhost:3000/api/auth/login', {
+    this.http.post<any>('https://starstable-api-cbg0c6cmhvghgpdv.westeurope-01.azurewebsites.net/api/auth/login', {
       email: this.email,
       pass: this.password,
     }).subscribe({
@@ -43,7 +43,7 @@ export class LoginComponent {
   onRegister() {
     console.log('Registering with:', this.name, this.email, this.password, this.role);
   
-    this.http.post<any>('http://localhost:3000/api/user', {
+    this.http.post<any>('https://starstable-api-cbg0c6cmhvghgpdv.westeurope-01.azurewebsites.net/api/user', {
       name: this.name,
       email: this.email,
       password: this.password,
