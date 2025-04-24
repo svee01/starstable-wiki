@@ -8,7 +8,7 @@ import { CreateHorseDto } from '../models/create-horse.dto';
   providedIn: 'root',
 })
 export class HorseService {
-  private baseUrl = 'starstable-api2.azurewebsites.net/api/horse';
+  private baseUrl = 'https://starstable-api2.azurewebsites.net/api/horse';
 
   constructor(private http: HttpClient) {}
 
