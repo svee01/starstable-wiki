@@ -14,7 +14,6 @@ async function bootstrap() {
   const corsOptions: CorsOptions = {};
   app.enableCors(corsOptions);
 
-  // 🛡️ Add global validation pipe
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,    // only allow properties that are in the DTO
